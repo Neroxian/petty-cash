@@ -30,10 +30,10 @@
 <script>
 export default {
   name: "AddedTable",
-  props: ["data"],
-};
+  props: ["data"]
+}
 </script>
 
 <style scoped>
 </style>
-
+/* eslint-disable */

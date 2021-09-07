@@ -7,12 +7,22 @@
         </div>
         <div class="col col-lg-5 col-md-5 col-sm-12 col-12">
           <form class="nav-btn">
-            <router-link to="/History"
-              ><button class="btn btn-dark mx-2" type="submit">
-                History
-              </button></router-link
+            <router-link
+              to="/History"
             >
-            <button class="btn btn-dark mx-2" type="submit">Report</button>
+              <button
+                class="btn btn-dark mx-2"
+                type="submit"
+              >
+                History
+              </button>
+            </router-link>
+            <button
+              class="btn btn-dark mx-2"
+              type="submit"
+            >
+              Report
+            </button>
           </form>
         </div>
       </div>
@@ -27,19 +37,32 @@
             name="Date"
             min="1999-12-31"
             max="2030-12-31"
-          />
+          >
         </div>
         <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
-          <b-form-select v-model="selected" :options="options"></b-form-select>
+          <b-form-select
+            v-model="selected"
+            :options="options"
+          />
           <select
             v-model.lazy="info.office"
             class="form-select"
             aria-label="Office wing"
           >
             <!-- <option selected></option> -->
-            <option value="" disabled selected>Office wing</option>
-            <option value="Wing A">A</option>
-            <option value="Wing B">B</option>
+            <option
+              value=""
+              disabled
+              selected
+            >
+              Office wing
+            </option>
+            <option value="Wing A">
+              A
+            </option>
+            <option value="Wing B">
+              B
+            </option>
           </select>
         </div>
       </div>
@@ -50,7 +73,7 @@
             v-model.lazy="info.vname"
             type="text"
             class="form-control add-form"
-          />
+          >
         </div>
         <div class="col-12 col-lg-6 col-md-6 col-sm-12">
           <label>Bill number :</label>
@@ -58,7 +81,7 @@
             v-model.lazy="info.billno"
             type="text"
             class="form-control add-form"
-          />
+          >
         </div>
       </div>
 
@@ -69,7 +92,7 @@
             v-model.lazy="info.description"
             type="text"
             class="form-control add-form"
-          />
+          >
         </div>
         <div class="col-12 col-lg-6 col-md-6 col-sm-12">
           <label>Total amount :</label>
@@ -77,33 +100,45 @@
             v-model.lazy="info.amount"
             type="text"
             class="form-control add-form"
-          />
+          >
         </div>
       </div>
 
       <div class="container row add-detail">
         <div class="col-12 col-lg-6 col-md-6 col-sm-12">
           <label>Expense Head :</label>
-          <select v-model.lazy="info.head" class="custom-select">
+          <select
+            v-model.lazy="info.head"
+            class="custom-select"
+          >
             <!-- <option selected></option> -->
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
+            <option value="1">
+              One
+            </option>
+            <option value="2">
+              Two
+            </option>
+            <option value="3">
+              Three
+            </option>
           </select>
         </div>
         <div class="col-12 col-lg-6 col-md-6 col-sm-12">
-          <label for="formFile" class="form-label">Choose File :</label>
+          <label
+            for="formFile"
+            class="form-label"
+          >Choose File :</label>
           <input
             class="form-control add-form choose"
             type="file"
             id="formFile"
-          />
+          >
         </div>
       </div>
 
       <div class="text-center">
         <button
-          v-on:click.prevent="adddata()"
+          @click.prevent="adddata()"
           class="btn btn-success mb-3"
           type="submit"
         >
@@ -111,38 +146,73 @@
         </button>
       </div>
     </form>
-    <AddedTable :data="data"></AddedTable>
+    <AddedTable :data="data" />
   </div>
 </template>
 
 <script>
-import AddedTable from "@/components/AddedTable.vue";
-
+import AddedTable from '@/components/AddedTable.vue'
+import MQL from '@/plugins/mql.js'
 export default {
   components: { AddedTable },
-  name: "Add",
-  data() {
+  name: 'Add',
+  data () {
     return {
+      vendors: [],
+      expenseHeads: [],
       info: {
-        vname: "",
-        billno: "",
-        description: "",
-        head: "",
-        amount: "",
-        date: "",
-        office: "",
+        vname: '',
+        billno: '',
+        description: '',
+        head: '',
+        amount: '',
+        date: '',
+        office: ''
       },
-      data: [],
-    };
+      data: []
+    }
+  },
+  mounted () {
+    this.GetAllVendors()
+    this.GetAllExpenseHeads()
+    // console.log('INSIDE ADMIn mounted ')
+    // setInterval(() => {
+    //   this.GetAllRequests()
+    // }, 2000)
+    // console.log(this.requests)
   },
   methods: {
-    adddata() {
-      this.data.push({
-        ...this.info,
-      });
+    GetAllVendors () {
+      new MQL()
+        .setActivity('o.[query_1xngjEpKzNb6dT7z4tFQnjry25L]')
+        .enablePageLoader(false)
+        .fetch()
+        .then(rs => {
+          let res = rs.getActivity('query_1xngjEpKzNb6dT7z4tFQnjry25L', true)
+          console.log('Printing Vendors')
+          console.log(res)
+          this.vendors = res
+        })
     },
-  },
-};
+    GetAllExpenseHeads () {
+      new MQL()
+        .setActivity('o.[query_1xnNEghekZ7jZ973K8pbNTLb639]')
+        .enablePageLoader(false)
+        .fetch()
+        .then(rs => {
+          let res = rs.getActivity('query_1xnNEghekZ7jZ973K8pbNTLb639', true)
+          console.log('Printing Heads')
+          console.log(res)
+          this.expenseHeads = res
+        })
+    },
+    adddata () {
+      this.data.push({
+        ...this.info
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -179,3 +249,4 @@ nav {
   border-radius: 3px;
 }
 </style>
+/* eslint-disable */
