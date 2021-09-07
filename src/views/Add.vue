@@ -12,7 +12,10 @@
                 History
               </button></router-link
             >
-            <button class="btn btn-dark mx-2" type="submit">Report</button>
+            <router-link to="/Response">
+              <button class="btn btn-dark mx-2" type="submit">Response</button>
+            </router-link>
+
           </form>
         </div>
       </div>
