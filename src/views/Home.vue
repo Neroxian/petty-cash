@@ -3,29 +3,47 @@
     <h1>MKCL’s Petty Cash Expenses</h1>
     <div class="login_button">
       <h3>Login as</h3>
-      <router-link to="/login" class="nav-link"
-        ><button type="button" class="btn btn-lg btn-primary">
+      <router-link
+        to="/login"
+        class="nav-link"
+      >
+        <button
+          type="button"
+          class="btn btn-lg btn-primary"
+        >
           Central Manager
-        </button></router-link
+        </button>
+      </router-link>
+      <router-link
+        to="/accountant_table"
+        class="nav-link"
       >
-      <router-link to="/accountant_table" class="nav-link"
-        ><button type="button" class="btn btn-lg btn-primary">
+        <button
+          type="button"
+          class="btn btn-lg btn-primary"
+        >
           Accountant
-        </button></router-link
+        </button>
+      </router-link>
+      <router-link
+        to="/add"
+        class="nav-link"
       >
-      <router-link to="/add" class="nav-link"
-        ><button type="button" class="btn btn-lg btn-primary">
+        <button
+          type="button"
+          class="btn btn-lg btn-primary"
+        >
           Management
-        </button></router-link
-      >
+        </button>
+      </router-link>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Home",
-};
+  name: 'Home'
+}
 </script>
 
 <style scoped>
