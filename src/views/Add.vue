@@ -182,6 +182,15 @@ export default {
     // console.log(this.requests)
   },
   methods: {
+    CreateNewVendor () {
+      new MQL()
+        .setActivity('o.[CreatePettyCashVendors]')
+        .setData('CreatePettyCashVendors', {
+          vendorName: this.vendor_name
+        })
+        .enablePageLoader(true)
+        .showConfirmDialog(true)
+    },
     GetAllVendors () {
       new MQL()
         .setActivity('o.[query_1xngjEpKzNb6dT7z4tFQnjry25L]')
