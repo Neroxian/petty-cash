@@ -28,12 +28,6 @@ export default new Router({
         lang: 'en',
         icon: 'mdi mdi-account'
       }
-    },
-    {
-      path: '/response',
-      name: 'response',
-      component: loadView('Response'),
-      meta: { title: 'Response', lang: 'mr', icon : 'mdi mdi-account' }
     }
   ]
 })
