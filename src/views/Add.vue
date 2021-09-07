@@ -40,10 +40,6 @@
           >
         </div>
         <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
-          <b-form-select
-            v-model="selected"
-            :options="options"
-          />
           <select
             v-model.lazy="info.office"
             class="form-select"
@@ -70,7 +66,7 @@
         <div class="col-12 col-lg-6 col-md-6 col-sm-12">
           <label for="vendor-name">Vendor name :</label>
           <select id="vendor-name">
-            <option v-for="vendor in vendors" :value="vendor._id" :key="vendor._id">
+            <option v-for="(vendor, idx) in vendors" :value="vendor._id" :key="vendor._id" :selected="idx === 0">
               {{ vendor.vendorName }}
             </option>
           </select>
@@ -120,7 +116,6 @@
             v-model.lazy="info.head"
             class="custom-select"
           >
-            <!-- <option selected></option> -->
             <option value="1">
               One
             </option>
@@ -186,11 +181,6 @@ export default {
   mounted () {
     this.GetAllVendors()
     this.GetAllExpenseHeads()
-    // console.log('INSIDE ADMIn mounted ')
-    // setInterval(() => {
-    //   this.GetAllRequests()
-    // }, 2000)
-    // console.log(this.requests)
   },
   methods: {
     CreateNewVendor () {
@@ -204,7 +194,7 @@ export default {
         .fetch()
         .then(rs => {
           // console.log("Vendor new data", rs)
-          console.log(rs.getActivity("CreatePettyCashVendors"))
+          console.log(rs.getActivity("CreatePettyCashVendors", true))
         })
     },
     GetAllVendors () {
@@ -214,8 +204,6 @@ export default {
         .fetch()
         .then(rs => {
           let res = rs.getActivity('query_1xngjEpKzNb6dT7z4tFQnjry25L', true)
-          console.log('Printing Vendors')
-          console.log("Vendor details", res)
           this.vendors = res
         })
     },
@@ -226,8 +214,6 @@ export default {
         .fetch()
         .then(rs => {
           let res = rs.getActivity('query_1xnNEghekZ7jZ973K8pbNTLb639', true)
-          console.log('Printing Heads')
-          console.log(res)
           this.expenseHeads = res
         })
     },
