@@ -7,9 +7,7 @@
         </div>
         <div class="col col-lg-5 col-md-5 col-sm-12 col-12">
           <form class="nav-btn">
-            <router-link
-              to="/History"
-            >
+            <router-link to="/History">
               <button
                 class="btn btn-dark mx-2"
                 type="submit"
@@ -180,7 +178,7 @@
 
       <div class="text-center">
         <button
-          @click.prevent="adddata()"
+          @click.prevent="CreateNewForm()"
           class="btn btn-success mb-3"
           type="submit"
         >
@@ -195,6 +193,7 @@
 <script>
 import AddedTable from '@/components/AddedTable.vue'
 import MQL from '@/plugins/mql.js'
+import { v4 as uuidv4 } from 'uuid'
 import MQLCdn from '@/plugins/mqlCdn.js'
 export default {
   components: { AddedTable },
@@ -202,6 +201,7 @@ export default {
   data () {
     return {
       vendors: [],
+      uploadedFilePath:'',
       expenseHeads: [],
       showAddVendor: false,
       showAddHead: false,
@@ -229,7 +229,7 @@ export default {
     // console.log(this.requests)
   },
   methods: {
-    uploadFile () {
+     uploadFile () {
       let formData = new FormData()
       formData.append('file', this.formFile)
       new MQLCdn()
@@ -238,7 +238,7 @@ export default {
       //   .setDirectoryPath('/demoFolder')// (optional field) if you want to save
       // // file to specific directory path
         .setFormData(formData) // (required) sets file data
-        .setFileName(this.month + '_' + this.year + '_' + this.formFile) // (optional field) if you want to set name to
+        .setFileName(this.month + '' + this.year + '' + this.formFile) // (optional field) if you want to set name to
       // file that is being uploaded
       // FIXED: pass buckeyKey instead of name
         .setBucketKey('1xnt9sQlNf6XVS9zQHE8Tw05tzR')// (required) valid bucket key need to set in which file will be uploaded.
@@ -262,6 +262,53 @@ export default {
           }
         })
     },
+    CreateNewForm () {
+      uploadFile ()
+      new MQL()
+        .setActivity('o.[CreatePettyCashForms]')
+        .setData('CreatePettyCashForms', {
+          'Forms': [
+            {
+              'amount': 3244,
+              'billNumber': '27299',
+              'date': '3/8/2021',
+              'description': 'WD-40 chemical for office',
+              'heads': 'Pantry Expenses',
+              'vendor': 'Uday urban Kirana',
+              'FormID': uuidv4(),
+              'bilFile':this.uploadedFilePath
+            }
+          ],
+          'currentApprovalStatus': 'centeral manager',
+          'month': 'March',
+          'workflowStage': '1',
+          'year': '2021'
+        })
+        .enablePageLoader(true)
+        .showConfirmDialog(true)
+        .fetch('a11')
+        .then((res) => {
+          console.log(res)
+          // let r = res.getRaw(true)
+          console.log(res.isValid())
+        })
+    },
+    
+    CreateNewVendor () {
+      new MQL()
+        .setActivity('o.[CreatePettyCashVendors]')
+        .setData('CreatePettyCashVendors', {
+          vendorName: this.newVendorName
+        })
+        .enablePageLoader(true)
+        .showConfirmDialog(true)
+        .fetch()
+        .then(rs => {
+          // console.log("Vendor new data", rs)
+          console.log(rs.getActivity('CreatePettyCashVendors'))
+        })
+    },
+   
     CreateNewVendor () {
       new MQL()
         .setActivity('o.[CreatePettyCashVendors]')
@@ -321,6 +368,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style scoped>
