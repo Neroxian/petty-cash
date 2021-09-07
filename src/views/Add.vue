@@ -202,7 +202,6 @@ import AddedTable from '@/components/AddedTable.vue'
 import MQL from '@/plugins/mql.js'
 import { v4 as uuidv4 } from 'uuid'
 import MQLCdn from '@/plugins/mqlCdn.js'
-import { v4 as uuidv4 } from 'uuid'
 export default {
   components: { AddedTable },
   name: 'Add',
@@ -232,11 +231,6 @@ export default {
   mounted () {
     this.GetAllVendors()
     this.GetAllExpenseHeads()
-    // console.log('INSIDE ADMIn mounted ')
-    // setInterval(() => {
-    //   this.GetAllRequests()
-    // }, 2000)
-    // console.log(this.requests)
   },
   methods: {
     handleFileChange (e) {
@@ -354,8 +348,6 @@ export default {
         .fetch()
         .then(rs => {
           let res = rs.getActivity('query_1xnNEghekZ7jZ973K8pbNTLb639', true)
-          console.log('Printing Heads')
-          console.log(res)
           this.expenseHeads = res
         })
     },
