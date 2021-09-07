@@ -275,7 +275,7 @@ class MQLCdn {
       obj.data = {}
 
       this.savedConfig.jwtKey = ''
-      this.savedConfig.isPrivateBucket = true
+      this.savedConfig.isPrivateBucket = false
 
       setBucketConfigInFormData(this.savedConfig)
       return new Promise((resolve) => {

@@ -174,13 +174,20 @@
             class="form-control add-form choose"
             type="file"
             id="formFile"
+            @change="handleFileChange"
           >
+          <button
+            id="uploadtBtn"
+            @click="uploadFile"
+          >
+            Upload file
+          </button>
         </div>
       </div>
 
       <div class="text-center">
         <button
-          @click.prevent="adddata()"
+          @click.prevent="CreateNewForm()"
           class="btn btn-success mb-3"
           type="submit"
         >
@@ -196,6 +203,7 @@
 import AddedTable from '@/components/AddedTable.vue'
 import MQL from '@/plugins/mql.js'
 import MQLCdn from '@/plugins/mqlCdn.js'
+import { v4 as uuidv4 } from 'uuid'
 export default {
   components: { AddedTable },
   name: 'Add',
@@ -207,6 +215,8 @@ export default {
       showAddHead: false,
       newVendorName: '',
       newHeadName: '',
+      formFile: null,
+      uploadedFilePath: null,
       info: {
         vname: '',
         billno: '',
@@ -229,26 +239,30 @@ export default {
     // console.log(this.requests)
   },
   methods: {
+    handleFileChange (e) {
+      // console.log(e.target.files[0])
+      this.formFile = e.target.files[0]
+    },
     uploadFile () {
       let formData = new FormData()
       formData.append('file', this.formFile)
       new MQLCdn()
-        .enablePageLoader(true)
       // // FIXED: change this to directory path
       //   .setDirectoryPath('/demoFolder')// (optional field) if you want to save
       // // file to specific directory path
         .setFormData(formData) // (required) sets file data
-        .setFileName(this.month + '_' + this.year + '_' + this.formFile) // (optional field) if you want to set name to
+        .setFileName('Pranjal') // (optional field) if you want to set name to
       // file that is being uploaded
       // FIXED: pass buckeyKey instead of name
         .setBucketKey('1xnt9sQlNf6XVS9zQHE8Tw05tzR')// (required) valid bucket key need to set in which file will be uploaded.
         .setPurposeId('1xnsw8jkWppWVLosh1cGnqbXPWJ')// (required) valid purposeId need to set in which file will be uploaded.
       // same as purposeID
         .setClientId('1xnsw8jkWppWVLosh1cGnqbXPWJ')// (required) valid purposeId need to set in which file will be uploaded.
-        .uploadFile('uploadtBtn')// function upload file
+        .uploadFile('uploadtBtn')
         .then(res => {
           // (required) this will upload file takes element id (optional param)
           // which will be blocked while file upload..
+          console.log(res)
           if (res.isValid()) {
             this.uploadedFilePath = res.uploadedFileURL()// returns uploaded file url..
             console.log('res cdn path', this.uploadedFilePath)
@@ -260,6 +274,37 @@ export default {
           } else {
             res.showErrorToast()
           }
+        })
+    },
+    CreateNewForm () {
+      // this.uploadFile()
+      new MQL()
+        .setActivity('o.[CreatePettyCashForms]')
+        .setData('CreatePettyCashForms', {
+          'Forms': [
+            {
+              'amount': 3244,
+              'uploadFilePath': this.uploadFilePath,
+              'billNumber': '27299',
+              'date': '3/8/2021',
+              'description': 'WD-40 chemical for office',
+              'heads': 'Pantry Expenses',
+              'vendor': 'Prnajal urban Kirana',
+              'FormID': uuidv4()
+            }
+          ],
+          'currentApprovalStatus': 'centeral manager',
+          'month': 'March',
+          'workflowStage': '1',
+          'year': '2021'
+        })
+        .enablePageLoader(true)
+        .showConfirmDialog(true)
+        .fetch('a11')
+        .then((res) => {
+          console.log(res)
+          // let r = res.getRaw(true)
+          console.log(res.isValid())
         })
     },
     CreateNewVendor () {
