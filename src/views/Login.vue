@@ -1,7 +1,10 @@
 <template>
   <div class="container-fluid g-0 row">
     <div class="col col-lg-6 col-md-6 col-sm-12 col-xs-12">
-      <img src="../assets/mkcl-main.png" alt="MKCL logo" />
+      <img
+        src="../assets/mkcl-main.png"
+        alt="MKCL logo"
+      >
     </div>
     <div class="col col-lg-6 col-md-6 col-sm-12 col-xs-12 login">
       <form>
@@ -13,7 +16,7 @@
             class="form-control"
             aria-describedby="emailHelp"
             placeholder="Enter Username"
-          />
+          >
         </div>
         <div class="form-group">
           <label>Password</label>
@@ -21,14 +24,22 @@
             type="password"
             class="form-control"
             placeholder="Enter Password"
-          />
+          >
         </div>
         <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input" />
+          <input
+            type="checkbox"
+            class="form-check-input"
+          >
           <label class="form-check-label">Remember me</label>
         </div>
         <div class="text-center">
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+          >
+            Submit
+          </button>
         </div>
       </form>
     </div>
@@ -37,7 +48,7 @@
 
 <script>
 export default {
-  name: "Login",
+  name: 'Login'
 }
 </script>
 
