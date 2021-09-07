@@ -7,9 +7,7 @@
         </div>
         <div class="col col-lg-5 col-md-5 col-sm-12 col-12">
           <form class="nav-btn">
-            <router-link
-              to="/History"
-            >
+            <router-link to="/History">
               <button
                 class="btn btn-dark mx-2"
                 type="submit"
@@ -42,7 +40,7 @@
         <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
           <select
             v-model.lazy="info.office"
-            class="form-select"
+            class="custom-select"
             aria-label="Office wing"
           >
             <!-- <option selected></option> -->
@@ -65,17 +63,36 @@
       <div class="container row add-detail">
         <div class="col-12 col-lg-6 col-md-6 col-sm-12">
           <label for="vendor-name">Vendor name :</label>
-          <select id="vendor-name">
-            <option v-for="(vendor, idx) in vendors" :value="vendor._id" :key="vendor._id" :selected="idx === 0">
+          <select
+            id="vendor-name"
+            v-model.lazy="info.vendor"
+            class="custom-select"
+          >
+            <option
+              v-for="vendor in vendors"
+              :value="vendor._id"
+              :key="vendor._id"
+            >
               {{ vendor.vendorName }}
             </option>
           </select>
           <div>
-            <button type="button" @click="showAddVendor = !showAddVendor">Show</button>
+            <button
+              type="button"
+              @click="showAddVendor = !showAddVendor"
+            >
+              Show
+            </button>
             <div v-if="showAddVendor">
               <form @submit.prevent="CreateNewVendor">
-                <input type="text" v-model="newVendorName">
-                <input type="submit" value="Add Vendor">
+                <input
+                  type="text"
+                  v-model="newVendorName"
+                >
+                <input
+                  type="submit"
+                  value="Add Vendor"
+                >
               </form>
             </div>
           </div>
@@ -116,16 +133,35 @@
             v-model.lazy="info.head"
             class="custom-select"
           >
-            <option value="1">
-              One
-            </option>
-            <option value="2">
-              Two
-            </option>
-            <option value="3">
-              Three
+            <!-- <option selected></option> -->
+            <option
+              v-for="expenseHead in expenseHeads"
+              :value="expenseHead._id"
+              :key="expenseHead._id"
+            >
+              {{ expenseHead.headName }}
             </option>
           </select>
+          <div>
+            <button
+              type="button"
+              @click="showAddHead = !showAddHead"
+            >
+              Show
+            </button>
+            <div v-if="showAddHead">
+              <form @submit.prevent="CreateNewHead">
+                <input
+                  type="text"
+                  v-model="newHeadName"
+                >
+                <input
+                  type="submit"
+                  value="Add Head"
+                >
+              </form>
+            </div>
+          </div>
         </div>
         <div class="col-12 col-lg-6 col-md-6 col-sm-12">
           <label
@@ -136,13 +172,20 @@
             class="form-control add-form choose"
             type="file"
             id="formFile"
+            @change="handleFileChange"
           >
+          <button
+            id="uploadtBtn"
+            @click="uploadFile"
+          >
+            Upload file
+          </button>
         </div>
       </div>
 
       <div class="text-center">
         <button
-          @click.prevent="adddata()"
+          @click.prevent="CreateNewForm()"
           class="btn btn-success mb-3"
           type="submit"
         >
@@ -157,15 +200,22 @@
 <script>
 import AddedTable from '@/components/AddedTable.vue'
 import MQL from '@/plugins/mql.js'
+import { v4 as uuidv4 } from 'uuid'
+import MQLCdn from '@/plugins/mqlCdn.js'
 export default {
   components: { AddedTable },
   name: 'Add',
   data () {
     return {
       vendors: [],
+      uploadedFilePath:'',
       expenseHeads: [],
       showAddVendor: false,
+      showAddHead: false,
       newVendorName: '',
+      newHeadName: '',
+      formFile: null,
+      uploadedFilePath: null,
       info: {
         vname: '',
         billno: '',
@@ -183,6 +233,74 @@ export default {
     this.GetAllExpenseHeads()
   },
   methods: {
+    handleFileChange (e) {
+      // console.log(e.target.files[0])
+      this.formFile = e.target.files[0]
+    },
+    uploadFile () {
+      let formData = new FormData()
+      formData.append('file', this.formFile)
+      new MQLCdn()
+      // // FIXED: change this to directory path
+      //   .setDirectoryPath('/demoFolder')// (optional field) if you want to save
+      // // file to specific directory path
+        .setFormData(formData) // (required) sets file data
+        .setFileName('Pranjal') // (optional field) if you want to set name to
+      // file that is being uploaded
+      // FIXED: pass buckeyKey instead of name
+        .setBucketKey('1xnt9sQlNf6XVS9zQHE8Tw05tzR')// (required) valid bucket key need to set in which file will be uploaded.
+        .setPurposeId('1xnsw8jkWppWVLosh1cGnqbXPWJ')// (required) valid purposeId need to set in which file will be uploaded.
+      // same as purposeID
+        .setClientId('1xnsw8jkWppWVLosh1cGnqbXPWJ')// (required) valid purposeId need to set in which file will be uploaded.
+        .uploadFile('uploadtBtn')
+        .then(res => {
+          // (required) this will upload file takes element id (optional param)
+          // which will be blocked while file upload..
+          console.log(res)
+          if (res.isValid()) {
+            this.uploadedFilePath = res.uploadedFileURL()// returns uploaded file url..
+            console.log('res cdn path', this.uploadedFilePath)
+            // this.$toasted.success('file uploaded.', {
+            //   theme: 'bubble',
+            //   position: 'top-center',
+            //   duration: 5000
+            // })
+          } else {
+            res.showErrorToast()
+          }
+        })
+    },
+    CreateNewForm () {
+      // this.uploadFile()
+      new MQL()
+        .setActivity('o.[CreatePettyCashForms]')
+        .setData('CreatePettyCashForms', {
+          'Forms': [
+            {
+              'amount': 3244,
+              'uploadFilePath': this.uploadFilePath,
+              'billNumber': '27299',
+              'date': '3/8/2021',
+              'description': 'WD-40 chemical for office',
+              'heads': 'Pantry Expenses',
+              'vendor': 'Prnajal urban Kirana',
+              'FormID': uuidv4()
+            }
+          ],
+          'currentApprovalStatus': 'centeral manager',
+          'month': 'March',
+          'workflowStage': '1',
+          'year': '2021'
+        })
+        .enablePageLoader(true)
+        .showConfirmDialog(true)
+        .fetch('a11')
+        .then((res) => {
+          console.log(res)
+          // let r = res.getRaw(true)
+          console.log(res.isValid())
+        })
+    },
     CreateNewVendor () {
       new MQL()
         .setActivity('o.[CreatePettyCashVendors]')
@@ -194,7 +312,21 @@ export default {
         .fetch()
         .then(rs => {
           // console.log("Vendor new data", rs)
-          console.log(rs.getActivity("CreatePettyCashVendors", true))
+          console.log(rs.getActivity('CreatePettyCashVendors'))
+        })
+    },
+    CreateNewHead () {
+      new MQL()
+        .setActivity('o.[CreatePettyCashHeads]')
+        .setData('CreatePettyCashHeads', {
+          headName: this.newHeadName
+        })
+        .enablePageLoader(true)
+        .showConfirmDialog(true)
+        .fetch()
+        .then(rs => {
+          // console.log("Vendor new data", rs)
+          console.log(rs.getActivity('CreatePettyCashHeads'))
         })
     },
     GetAllVendors () {
@@ -204,6 +336,8 @@ export default {
         .fetch()
         .then(rs => {
           let res = rs.getActivity('query_1xngjEpKzNb6dT7z4tFQnjry25L', true)
+          console.log('Printing Vendors')
+          console.log('Vendor details', res)
           this.vendors = res
         })
     },
@@ -224,6 +358,7 @@ export default {
     }
   }
 }
+
 </script>
 
 <style scoped>

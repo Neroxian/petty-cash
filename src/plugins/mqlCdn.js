@@ -3,7 +3,7 @@ import Response from '@/plugins/response.js'
 import Vue from 'vue'
 
 class MQLCdn {
-  constructor() {
+  constructor () {
     // eslint-disable-next-line
     let cancel
     let requestProcessedWithoutErrorCode = 1000
@@ -275,7 +275,7 @@ class MQLCdn {
       obj.data = {}
 
       this.savedConfig.jwtKey = ''
-      this.savedConfig.isPrivateBucket = true
+      this.savedConfig.isPrivateBucket = false
 
       setBucketConfigInFormData(this.savedConfig)
       return new Promise((resolve) => {
@@ -305,7 +305,7 @@ class MQLCdn {
             resolve(res)
           })
         } else {
-          this.cdnURL = window.location.origin + Vue.getCDNBaseURL() +"/"+ this.cdnPath
+          this.cdnURL = window.location.origin + Vue.getCDNBaseURL() + '/' + this.cdnPath
           getFileFromCDN(this.cdnURL).then(res => {
             resolve(res)
           })
