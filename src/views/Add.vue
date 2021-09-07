@@ -68,12 +68,21 @@
       </div>
       <div class="container row add-detail">
         <div class="col-12 col-lg-6 col-md-6 col-sm-12">
-          <label>Vendor name :</label>
-          <input
-            v-model.lazy="info.vname"
-            type="text"
-            class="form-control add-form"
-          >
+          <label for="vendor-name">Vendor name :</label>
+          <select id="vendor-name">
+            <option v-for="vendor in vendors" :value="vendor._id" :key="vendor._id">
+              {{ vendor.vendorName }}
+            </option>
+          </select>
+          <div>
+            <button type="button" @click="showAddVendor = !showAddVendor">Show</button>
+            <div v-if="showAddVendor">
+              <form @submit.prevent="CreateNewVendor">
+                <input type="text" v-model="newVendorName">
+                <input type="submit" value="Add Vendor">
+              </form>
+            </div>
+          </div>
         </div>
         <div class="col-12 col-lg-6 col-md-6 col-sm-12">
           <label>Bill number :</label>
@@ -160,6 +169,8 @@ export default {
     return {
       vendors: [],
       expenseHeads: [],
+      showAddVendor: false,
+      newVendorName: '',
       info: {
         vname: '',
         billno: '',
@@ -186,10 +197,15 @@ export default {
       new MQL()
         .setActivity('o.[CreatePettyCashVendors]')
         .setData('CreatePettyCashVendors', {
-          vendorName: this.vendor_name
+          vendorName: this.newVendorName
         })
         .enablePageLoader(true)
         .showConfirmDialog(true)
+        .fetch()
+        .then(rs => {
+          // console.log("Vendor new data", rs)
+          console.log(rs.getActivity("CreatePettyCashVendors"))
+        })
     },
     GetAllVendors () {
       new MQL()
@@ -199,7 +215,7 @@ export default {
         .then(rs => {
           let res = rs.getActivity('query_1xngjEpKzNb6dT7z4tFQnjry25L', true)
           console.log('Printing Vendors')
-          console.log(res)
+          console.log("Vendor details", res)
           this.vendors = res
         })
     },
