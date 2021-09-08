@@ -291,6 +291,9 @@ export default {
           console.log(res);
           // let r = res.getRaw(true)
           console.log(res.isValid());
+          this.data.push({
+            ...this.info
+          })
         });
     },
     CreateNewVendor() {
