@@ -9,25 +9,37 @@
     MKCL’s Petty Cash Expenses</h1>
     </div>
 
-        <div class="overflow-auto text-center">
-            <b-table
-            class="table-secondary"
-            id="my-table"
-            v-for="expense in expenses" :key="expense.FormID"
-            :expenses="expenses"
-            :per-page="perPage"
-            :current-page="currentPage"
-            small
-            >
-            </b-table>
-            
-            <b-pagination
-            class="b-flex justify-content-center"
-            v-model="currentPage"
-            :total-rows="rows"
-            :per-page="perPage"
-            aria-controls="my-table"
-            ></b-pagination>
+        <div class="overflow-auto">
+            <table class="table table-secondary text-center mt-3">
+            <thead class="table-dark">
+                <tr>
+                <th scope="col">Sr no.</th>
+                <th scope="col">Date</th>
+                <th scope="col">Month</th>
+                <th scope="col">Vendor</th>
+                <th scope="col">Description</th>
+                <th scope="col">Bill no.</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Head</th>
+                <th scope="col">Update</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>items.</td>
+                <td>items.date</td>
+                <td>items.</td>
+                <td>items.</td>
+                <td>items.</td>
+                <td>items.</td>
+                <td>items.</td>
+                <td>items.</td>
+                <td>
+                    <button class="btn btn-sm btn-danger">Edit</button>
+                </td>
+                </tr>
+            </tbody>
+        </table>
         </div>
 
         <div class="text-center">
@@ -101,9 +113,6 @@
 </template>
 
 <style scoped>
-b-pagination{
-    border: 1px solid black;
-}
 .btn:focus{
     box-shadow: none;
 }
@@ -120,15 +129,18 @@ td{
 </style>
 
 <script>
-import MQL from '@/plugins/mql.js'
-
 export default {
     name : 'Historynew',
     data() {
       return {
         perPage: 3,
         currentPage: 1,
-        expenses: []
+        items: []
+      }
+    },
+    computed: {
+      rows() {
+        return this.items.length
       }
     },
     methods: {
@@ -142,18 +154,10 @@ export default {
         .fetch()
         .then(rs => {
           let res = rs.getActivity('query_1xqD5W4b5HEjiQW66cUXvoJy8e7', true)
-          this.expenses = res
+          this.items = res
         })
-    },
-    updateRequest (FormID) {
-      this.expenses = this.expenses.filter(r => r._FormID !== FormID)
-    }
-  },
-  computed: {
-    infone: function () {
-      console.log(this.allRequests)
-      return this.allRequests.filter((i) => i.status == false)
-    }
-  }  
+  }
 }
+}
+
 </script>
