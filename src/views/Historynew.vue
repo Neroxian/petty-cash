@@ -24,7 +24,6 @@
             <b-pagination
             class="b-flex justify-content-center"
             v-model="currentPage"
-            :total-rows="rows"
             :per-page="perPage"
             aria-controls="my-table"
             ></b-pagination>
@@ -46,47 +45,47 @@
                 <tbody>
                     <tr>
                         <td class="deno">₹2000 note</td>
-                        <td class="deno"><input type="text" placeholder="0"></td>
+                        <td class="deno"><input type="text" placeholder="0" v-model="expenses.twoThousands.num"></td>
                     </tr>
                     <tr>
                         <td class="deno">₹500 note</td>
-                        <td class="deno"><input type="text" placeholder="0"></td>
+                        <td class="deno"><input type="text" placeholder="0" v-model="expenses.fiveHundreds.num"></td>
                     </tr>
                     <tr>
                         <td class="deno">₹200 note</td>
-                        <td class="deno"><input type="text" placeholder="0"></td>
+                        <td class="deno"><input type="text" placeholder="0" v-model="expenses.twoHundreds.num"></td>
                     </tr>
                     <tr>
                         <td class="deno">₹100 note</td>
-                        <td class="deno"><input type="text" placeholder="0"></td>
+                        <td class="deno"><input type="text" placeholder="0" v-model="expenses.oneHundreds.num"></td>
                     </tr>
                     <tr>
                         <td class="deno">₹50 note</td>
-                        <td class="deno"><input type="text" placeholder="0"></td>
+                        <td class="deno"><input type="text" placeholder="0" v-model="expenses.fifties.num"></td>
                     </tr>
                     <tr>
                         <td class="deno">₹20 note</td>
-                        <td class="deno"><input type="text" placeholder="0"></td>
+                        <td class="deno"><input type="text" placeholder="0" v-model="expenses.twenties.num"></td>
                     </tr>
                     <tr>
                         <td class="deno">₹10 note/coin</td>
-                        <td class="deno"><input type="text" placeholder="0"></td>
+                        <td class="deno"><input type="text" placeholder="0" v-model="expenses.tens.num"></td>
                     </tr>
                     <tr>
                         <td class="deno">₹5 note/coin</td>
-                        <td class="deno"><input type="text" placeholder="0"></td>
+                        <td class="deno"><input type="text" placeholder="0" v-model="expenses.fives.num"></td>
                     </tr>
                     <tr>
                         <td class="deno">₹2 note/coin</td>
-                        <td class="deno"><input type="text" placeholder="0"></td>
+                        <td class="deno"><input type="text" placeholder="0" v-model="expenses.twos.num"></td>
                     </tr>
                     <tr>
                         <td class="deno">₹1 note/coin</td>
-                        <td class="deno"><input type="text" placeholder="0"></td>
+                        <td class="deno"><input type="text" placeholder="0" v-model="expenses.ones.num"></td>
                     </tr>
                 </tbody>
                 </table>
-                <h5>Total amount remaining : {{ hello }}</h5>
+                <h5>Total amount remaining : {{ totalAmount }}</h5>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary">Submit</button>
@@ -128,7 +127,48 @@ export default {
       return {
         perPage: 3,
         currentPage: 1,
-        expenses: []
+        expenses: {
+            twoThousands: {
+                num: 0,
+                value: 2000
+            },
+            fiveHundreds: {
+                num: 0,
+                value: 500
+            },
+            twoHundreds: {
+                num: 0,
+                value: 200
+            },
+            oneHundreds: {
+                num: 0,
+                value: 100
+            },
+            fifties: {
+                num: 0,
+                value: 50
+            },
+            twenties: {
+                num: 0,
+                value: 20
+            },
+            tens: {
+                num: 0,
+                value: 10
+            },
+            fives: {
+                num: 0,
+                value: 5
+            },
+            twos: {
+                num: 0,
+                value: 2
+            },
+            ones: {
+                num: 0,
+                value: 1
+            },
+        },
       }
     },
     methods: {
@@ -151,8 +191,14 @@ export default {
   },
   computed: {
     infone: function () {
-      console.log(this.allRequests)
+    //   console.log(this.allRequests)
       return this.allRequests.filter((i) => i.status == false)
+    },
+    totalAmount: function () {
+        return Object.keys(this.expenses).reduce((prevValue, key) => {
+            // console.log(this.expenses[b])
+            return prevValue + parseInt(this.expenses[key].num || 0, 10) * this.expenses[key].value
+        }, 0)
     }
   }  
 }
