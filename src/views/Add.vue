@@ -177,6 +177,22 @@ import AddedTable from "@/components/AddedTable.vue";
 import MQL from "@/plugins/mql.js";
 import { v4 as uuidv4 } from "uuid";
 import MQLCdn from "@/plugins/mqlCdn.js";
+
+const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+]
+
 export default {
   components: { AddedTable },
   name: "Add",
@@ -243,6 +259,11 @@ export default {
     },
     CreateNewForm() {
       // this.uploadFile()
+      // console.log(this.info.date.split("-"))
+      const month = MONTHS[parseInt(this.info.date.split("-")[1], 10) - 1]
+      console.log(month)
+      const year = parseInt(this.info.date.split("-")[0], 10)
+      console.log(year)
       new MQL()
         .setActivity("o.[CreatePettyCashForms]")
         .setData("CreatePettyCashForms", {
@@ -259,9 +280,9 @@ export default {
             },
           ],
           currentApprovalStatus: "centeral manager",
-          month: "March",
+          month: month,
           workflowStage: "1",
-          year: "2021",
+          year: year,
         })
         .enablePageLoader(true)
         .showConfirmDialog(true)
