@@ -52,7 +52,7 @@
           >
             <option
               v-for="vendor in vendors"
-              :value="vendor._id"
+              :value="vendor.vendorName"
               :key="vendor._id"
             >
               {{ vendor.vendorName }}
@@ -115,7 +115,7 @@
             <!-- <option selected></option> -->
             <option
               v-for="expenseHead in expenseHeads"
-              :value="expenseHead._id"
+              :value="expenseHead.headName"
               :key="expenseHead._id"
             >
               {{ expenseHead.headName }}
@@ -234,7 +234,7 @@ export default {
       new MQLCdn()
         .setDirectoryPath("/PettyCashDailyFormData")
         .setFormData(formData) // (required) sets file data
-        .setFileName("Pranjal") // (optional field) if you want to set name to
+        .setFileName(Date.now() + "_bill") // (optional field) if you want to set name to
         .setBucketKey("1xnt9sQlNf6XVS9zQHE8Tw05tzR") // (required) valid bucket key need to set in which file will be uploaded.
         .setPurposeId("1xnsw8jkWppWVLosh1cGnqbXPWJ") // (required) valid purposeId need to set in which file will be uploaded.
         // same as purposeID

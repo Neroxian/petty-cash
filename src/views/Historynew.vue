@@ -21,28 +21,41 @@
     </div>
 
     <div>
-        <input type="date" v-model="date">
+      <form @submit.prevent="searchForms">
+        <input type="date" v-model="date" />
+        <input type="submit" value="Search!" />
+      </form>
     </div>
 
     <div class="overflow-auto text-center">
-      <b-table
-        class="table-secondary"
-        id="my-table"
-        v-for="expense in expenses"
-        :key="expense.FormID"
-        :expenses="expenses"
-        :per-page="perPage"
-        :current-page="currentPage"
-        small
-      >
-      </b-table>
-
-      <b-pagination
-        class="b-flex justify-content-center"
-        v-model="currentPage"
-        :per-page="perPage"
-        aria-controls="my-table"
-      ></b-pagination>
+      <table>
+        <thead>
+          <tr>
+            <td>Form ID</td>
+            <td>Date</td>
+            <td>Vendor name</td>
+            <td>Bill No.</td>
+            <td>Description</td>
+            <td>Amount</td>
+            <td>Expense Head</td>
+            <td>File</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(data, idx) in formData" :key="data.FormID">
+            <td>{{ idx + 1 }}</td>
+            <td>{{ data.date }}</td>
+            <td>{{ data.vendor }}</td>
+            <td>{{ data.billNumber }}</td>
+            <td>{{ data.description }}</td>
+            <td>₹ {{ data.amount }}</td>
+            <td>{{ data.heads }}</td>
+            <td>
+              <a :href="data.uploadFilePath" target="_blank">Link</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="text-center">
@@ -214,6 +227,7 @@ input {
 }
 td {
   padding: 0.4rem;
+  border: 1px solid gray;
 }
 </style>
 
@@ -221,27 +235,28 @@ td {
 import MQL from "@/plugins/mql.js";
 
 const MONTHS = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
-]
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 export default {
   name: "Historynew",
   data() {
     return {
       perPage: 3,
-      date: '2021-09-30',
+      date: "2021-09-30",
       currentPage: 1,
+      formData: [],
       expenses: {
         twoThousands: {
           num: 0,
@@ -291,27 +306,38 @@ export default {
   },
   methods: {
     GetAllRequests() {
-        const month = MONTHS[parseInt(this.date.split("-")[1], 10) - 1]
-        console.log(month)
-        const year = parseInt(this.date.split("-")[0], 10)
-        console.log(year)
+      const month = MONTHS[parseInt(this.date.split("-")[1], 10) - 1];
+      console.log(month);
+      const year = this.date.split("-")[0];
+      console.log(year);
       new MQL()
         .setActivity("o.[query_1xqD5W4b5HEjiQW66cUXvoJy8e7]")
         .setData({
           fetchId: "1xqD5W4b5HEjiQW66cUXvoJy8e7",
-          year: 2021,
-          month: 'September'
+          year: year,
+          month: month,
         })
         .enablePageLoader(false)
         .fetch()
         .then((rs) => {
-          console.log(rs);
-          //   let res = rs.getActivity("query_1xqD5W4b5HEjiQW66cUXvoJy8e7", true);
-          //   console.log(res);
+          // console.log(rs);
+          let res = rs.getActivity("FetchQueryData", true);
+          // console.log(rs.getActivity("FetchQueryData", true));
+          // console.log(res.result);
+          const queryId = Object.keys(res.result)[0]
+          if (res.result[queryId] !== null) {
+            this.formData = res.result[queryId][0].Forms
+          } else {
+            this.formData = []
+          }
+          // console.log(formData)
         });
     },
     updateRequest(FormID) {
       this.expenses = this.expenses.filter((r) => r._FormID !== FormID);
+    },
+    searchForms() {
+      this.GetAllRequests();
     },
   },
   computed: {
