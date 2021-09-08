@@ -22,15 +22,15 @@
 
     <div>
       <form @submit.prevent="searchForms">
-        <input type="date" v-model="date" />
-        <input type="submit" value="Search!" />
+        <input class="p-2" type="date" v-model="date" />
+        <input class="p-2" type="submit" value="Search!" />
       </form>
     </div>
 
     <div class="overflow-auto text-center">
-      <table>
-        <thead>
-          <tr>
+      <table class="table mt-2">
+        <thead class="table-dark">
+          <tr >
             <td>Form ID</td>
             <td>Date</td>
             <td>Vendor name</td>
@@ -51,7 +51,7 @@
             <td>₹ {{ data.amount }}</td>
             <td>{{ data.heads }}</td>
             <td>
-              <a :href="data.uploadFilePath" target="_blank">Link</a>
+              <a :href="data.uploadFilePath" target="_blank"><button class="btn btn-sm btn-primary">View</button></a>
             </td>
           </tr>
         </tbody>
