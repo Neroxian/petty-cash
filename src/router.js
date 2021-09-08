@@ -34,6 +34,18 @@ export default new Router({
       name: 'response',
       component: loadView('Response'),
       meta: { title: 'Response', lang: 'mr', icon : 'mdi mdi-account' }
+    },
+    {
+      path: '/history',
+      name: 'History',
+      component: loadView('History'),
+      meta: { title: 'History', lang: 'mr', icon : 'mdi mdi-account' }
+    },
+    {
+      path: '/accountant',
+      name: 'Accountant_table',
+      component: loadView('Accountant_table'),
+      meta: { title: 'Accountant_table', lang: 'mr', icon : 'mdi mdi-account' }
     }
   ]
 })
