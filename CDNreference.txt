@@ -1,0 +1,50 @@
+Result:{"result":
+{"cdnServer":"https://testcdncs.mkcl.org","filePath":"1xnt9sQlNf6XVS9zQHE8Tw05tzR/PettyCashDailyFormData/Pranjal.pdf"},"error":null,"reponseHeader":null,"errorCode":1000,"isCompressed":false,"serverTime":"2021-09-08T04:34:05.204635408Z"}
+
+uploadFile () {
+      let formData = new FormData()
+      formData.append('file', this.files) // append your file as 'file' in formdata.
+      new MQLCdn()
+        .enablePageLoader(true)
+        // FIXED: change this to directory path
+        .setDirectoryPath('/learnerProfileImgs') // (optional field) if you want to save  file to specific directory path
+        .setFormData(formData) // (required) sets file data
+        .setFileName('learner_' + this.learnerObj[0].id) // (optional field) if you want to set name to file that is being uploaded
+        // FIXED: pass buckeyKey instead of name
+        .setBucketKey('1dflXkxreoc6iyaHkP4uLHlF72m') // (required) valid bucket key need to set in which file will be uploaded.
+        .setPurposeId('1dflUaUuFHfDHxALRDxSqyUsotV') // (required) valid purposeId need to set in which file will be uploaded.
+        .setClientId('1dflXkxreoc6iyaHkP4uLHlF72m') // (required) valid purposeId need to set in which file will be uploaded.
+        .uploadFile('uploadtBtn')
+        .then(res => {
+          // (required) this will upload file takes element id (optional param) which will be blocked while file upload..
+          if (res.isValid()) {
+            this.uploadedFilePath = res.uploadedFileURL() // returns uploaded file url..
+            var fileURLToUpload =
+              this.uploadedFilePath.cdnServer +
+              '/' +
+              this.uploadedFilePath.filePath
+
+            new MQL()
+              .setActivity('o.[UpdateLearnerPhoto]')
+              .setData({
+                photo: fileURLToUpload,
+                learner_id: this.learnerObj[0].id
+              })
+              .fetch()
+              .then(rs => {
+                // eslint-disable-next-line no-unused-vars
+                let res = rs.getActivity('UpdateLearnerPhoto', false)
+                if (rs.isValid('UpdateLearnerPhoto')) {
+                  this.$toasted.success(this.$t('MyProfile.profile_photo_uploaded_succesfully'), {
+                    theme: 'bubble',
+                    duration: 5000
+                  })
+                } else {
+                  rs.showErrorToast('UpdateLearnerPhoto')
+                }
+              })
+          } else {
+            res.showErrorToast()
+          }
+        })
+    }

@@ -208,7 +208,7 @@ module.exports = {
         }
       },
       '/cdnserver': {
-        target: 'https://cs.mkcl.org/1tnTkU5kI7a4Kun9JlxkhUc1TDO',
+        target: 'https://testcdncs.mkcl.org/',
         ws: true,
         changeOrigin: true,
         pathRewrite: {

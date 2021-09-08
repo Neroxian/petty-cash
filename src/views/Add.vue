@@ -169,12 +169,12 @@
             style="border: 1px solid black;padding:5px"
             @change="handleFileChange"
           >
-          <!-- <button
+          <button
             id="uploadtBtn"
             @click="uploadFile"
           >
             Upload file
-          </button> -->
+          </button>
         </div>
       </div>
 
@@ -203,7 +203,6 @@ export default {
   data () {
     return {
       vendors: [],
-      uploadedFilePath:'',
       expenseHeads: [],
       showAddVendor: false,
       showAddHead: false,
@@ -229,37 +228,34 @@ export default {
   },
   methods: {
     handleFileChange (e) {
-      // console.log(e.target.files[0])
+      console.log('Handle printing file data')
+      console.log(e.target.files[0])
       this.formFile = e.target.files[0]
     },
     uploadFile () {
       let formData = new FormData()
       formData.append('file', this.formFile)
       new MQLCdn()
-      // // FIXED: change this to directory path
-      //   .setDirectoryPath('/demoFolder')// (optional field) if you want to save
-      // // file to specific directory path
+        .setDirectoryPath('/PettyCashDailyFormData')
         .setFormData(formData) // (required) sets file data
         .setFileName('Pranjal') // (optional field) if you want to set name to
-      // file that is being uploaded
-      // FIXED: pass buckeyKey instead of name
         .setBucketKey('1xnt9sQlNf6XVS9zQHE8Tw05tzR')// (required) valid bucket key need to set in which file will be uploaded.
         .setPurposeId('1xnsw8jkWppWVLosh1cGnqbXPWJ')// (required) valid purposeId need to set in which file will be uploaded.
       // same as purposeID
-        .setClientId('1xnsw8jkWppWVLosh1cGnqbXPWJ')// (required) valid purposeId need to set in which file will be uploaded.
+        .setClientId('1xnt9sQlNf6XVS9zQHE8Tw05tzR')// (required) valid purposeId need to set in which file will be uploaded.
         .uploadFile('uploadtBtn')
         .then(res => {
           // (required) this will upload file takes element id (optional param)
           // which will be blocked while file upload..
-          console.log(res)
+          console.log(res.uploadedFileURL())
           if (res.isValid()) {
             this.uploadedFilePath = res.uploadedFileURL()// returns uploaded file url..
             console.log('res cdn path', this.uploadedFilePath)
-            // this.$toasted.success('file uploaded.', {
-            //   theme: 'bubble',
-            //   position: 'top-center',
-            //   duration: 5000
-            // })
+            this.$toasted.success('file uploaded.', {
+              theme: 'bubble',
+              position: 'top-center',
+              duration: 5000
+            })
           } else {
             res.showErrorToast()
           }
