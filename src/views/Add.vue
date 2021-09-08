@@ -262,7 +262,7 @@ export default {
       // console.log(this.info.date.split("-"))
       const month = MONTHS[parseInt(this.info.date.split("-")[1], 10) - 1]
       console.log(month)
-      const year = parseInt(this.info.date.split("-")[0], 10)
+      const year = this.info.date.split("-")[0]
       console.log(year)
       new MQL()
         .setActivity("o.[CreatePettyCashForms]")

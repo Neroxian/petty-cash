@@ -20,6 +20,10 @@
       </h1>
     </div>
 
+    <div>
+        <input type="date" v-model="date">
+    </div>
+
     <div class="overflow-auto text-center">
       <b-table
         class="table-secondary"
@@ -216,11 +220,27 @@ td {
 <script>
 import MQL from "@/plugins/mql.js";
 
+const MONTHS = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+]
+
 export default {
   name: "Historynew",
   data() {
     return {
       perPage: 3,
+      date: '2021-09-30',
       currentPage: 1,
       expenses: {
         twoThousands: {
@@ -271,16 +291,16 @@ export default {
   },
   methods: {
     GetAllRequests() {
-        const month = MONTHS[parseInt(this.info.date.split("-")[1], 10) - 1]
-        // console.log(month)
-        const year = parseInt(this.info.date.split("-")[0], 10)
-        // console.log(year)
+        const month = MONTHS[parseInt(this.date.split("-")[1], 10) - 1]
+        console.log(month)
+        const year = parseInt(this.date.split("-")[0], 10)
+        console.log(year)
       new MQL()
         .setActivity("o.[query_1xqD5W4b5HEjiQW66cUXvoJy8e7]")
         .setData({
           fetchId: "1xqD5W4b5HEjiQW66cUXvoJy8e7",
-          year: year,
-          month: month
+          year: 2021,
+          month: 'September'
         })
         .enablePageLoader(false)
         .fetch()
