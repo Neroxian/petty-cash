@@ -170,6 +170,7 @@
             @change="handleFileChange"
           >
           <button
+            class="btn btn-sm btn-dark"
             id="uploadtBtn"
             @click="uploadFile"
           >

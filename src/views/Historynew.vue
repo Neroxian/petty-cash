@@ -13,7 +13,8 @@
             <b-table
             class="table-secondary"
             id="my-table"
-            :items="items"
+            v-for="expense in expenses" :key="expense.FormID"
+            :expenses="expenses"
             :per-page="perPage"
             :current-page="currentPage"
             small
@@ -119,29 +120,40 @@ td{
 </style>
 
 <script>
+import MQL from '@/plugins/mql.js'
+
 export default {
     name : 'Historynew',
     data() {
       return {
         perPage: 3,
         currentPage: 1,
-        items: [
-          { Sr_no: 1, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '1312', Amount: '6455', Head: 'data', Update: 'data' },
-          { Sr_no: 2, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '133121', Amount: '6455', Head: 'data', Update: 'data' },
-          { Sr_no: 3, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '13151', Amount: '6455', Head: 'data', Update: 'data' },
-          { Sr_no: 4, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '15684', Amount: '6455', Head: 'data', Update: 'data' },
-          { Sr_no: 5, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '8312', Amount: '6455', Head: 'data', Update: 'data' },
-          { Sr_no: 6, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '31212', Amount: '6455', Head: 'data', Update: 'data' },
-          { Sr_no: 7, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '512', Amount: '6455', Head: 'data', Update: 'data' },
-          { Sr_no: 8, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '612', Amount: '6455', Head: 'data', Update: 'data' },
-          { Sr_no: 9, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '13512', Amount: '6455', Head: 'data', Update: 'data' },
-          ]
+        expenses: []
       }
     },
-    computed: {
-      rows() {
-        return this.items.length
-      }
+    methods: {
+    GetAllRequests () {
+      new MQL()
+        .setActivity('o.[query_1xqD5W4b5HEjiQW66cUXvoJy8e7]')
+        .setData({
+          fetchId: '1xqD5W4b5HEjiQW66cUXvoJy8e7'
+        })
+        .enablePageLoader(false)
+        .fetch()
+        .then(rs => {
+          let res = rs.getActivity('query_1xqD5W4b5HEjiQW66cUXvoJy8e7', true)
+          this.expenses = res
+        })
+    },
+    updateRequest (FormID) {
+      this.expenses = this.expenses.filter(r => r._FormID !== FormID)
     }
+  },
+  computed: {
+    infone: function () {
+      console.log(this.allRequests)
+      return this.allRequests.filter((i) => i.status == false)
+    }
+  }  
 }
 </script>
