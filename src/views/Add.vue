@@ -7,7 +7,7 @@
         </div>
         <div class="col col-lg-5 col-md-5 col-sm-12 col-12">
           <form class="nav-btn">
-            <router-link to="/History">
+            <router-link to="/Historyn">
               <button
                 class="btn btn-dark mx-2"
                 type="submit"
@@ -163,10 +163,10 @@
             class="form-label"
           >Upload bill :</label>
           <input
-            class="form-control add-form choose"
+            class="form-control add-form choose ml-1"
             type="file"
             id="formFile"
-            style="border: none"
+            style="border: 1px solid black;padding:5px"
             @change="handleFileChange"
           >
           <!-- <button
@@ -375,7 +375,7 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 2.2rem;
+  margin: 2.3rem;
 }
 .add-form {
   padding: 0;

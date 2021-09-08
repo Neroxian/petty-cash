@@ -46,6 +46,12 @@ export default new Router({
       name: 'Accountant_table',
       component: loadView('Accountant_table'),
       meta: { title: 'Accountant_table', lang: 'mr', icon : 'mdi mdi-account' }
+    },
+    {
+      path: '/historyn',
+      name: 'Historynew',
+      component: loadView('Historynew'),
+      meta: { title: 'Historynew', lang: 'mr', icon : 'mdi mdi-account' }
     }
   ]
 })

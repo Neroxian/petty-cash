@@ -8,36 +8,27 @@
         </svg></router-link>
     MKCL’s Petty Cash Expenses</h1>
     </div>
-    <table class="table table-secondary text-center mt-3">
-            <thead class="table-dark">
-                <tr>
-                <th scope="col">Sr no.</th>
-                <th scope="col">Date</th>
-                <th scope="col">Month</th>
-                <th scope="col">Vendor</th>
-                <th scope="col">Description</th>
-                <th scope="col">Bill no.</th>
-                <th scope="col">Amount</th>
-                <th scope="col">Head</th>
-                <th scope="col">Update</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <td>Data</td>
-                <td>Data</td>
-                <td>Data</td>
-                <td>Data</td>
-                <td>Data</td>
-                <td>Data</td>
-                <td>Data</td>
-                <td>Data</td>
-                <td>
-                    <button class="btn btn-sm btn-danger">Edit</button>
-                </td>
-                </tr>
-            </tbody>
-        </table>
+
+        <div class="overflow-auto text-center">
+            <b-table
+            class="table-secondary"
+            id="my-table"
+            :items="items"
+            :per-page="perPage"
+            :current-page="currentPage"
+            small
+            >
+            </b-table>
+            
+            <b-pagination
+            class="b-flex justify-content-center"
+            v-model="currentPage"
+            :total-rows="rows"
+            :per-page="perPage"
+            aria-controls="my-table"
+            ></b-pagination>
+        </div>
+
         <div class="text-center">
             <button type="button" class="btn btn-outline-primary m-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Denomination</button>
 
@@ -109,6 +100,9 @@
 </template>
 
 <style scoped>
+b-pagination{
+    border: 1px solid black;
+}
 .btn:focus{
     box-shadow: none;
 }
@@ -126,6 +120,28 @@ td{
 
 <script>
 export default {
-    name : 'History',
+    name : 'Historynew',
+    data() {
+      return {
+        perPage: 3,
+        currentPage: 1,
+        items: [
+          { Sr_no: 1, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '1312', Amount: '6455', Head: 'data', Update: 'data' },
+          { Sr_no: 2, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '133121', Amount: '6455', Head: 'data', Update: 'data' },
+          { Sr_no: 3, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '13151', Amount: '6455', Head: 'data', Update: 'data' },
+          { Sr_no: 4, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '15684', Amount: '6455', Head: 'data', Update: 'data' },
+          { Sr_no: 5, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '8312', Amount: '6455', Head: 'data', Update: 'data' },
+          { Sr_no: 6, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '31212', Amount: '6455', Head: 'data', Update: 'data' },
+          { Sr_no: 7, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '512', Amount: '6455', Head: 'data', Update: 'data' },
+          { Sr_no: 8, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '612', Amount: '6455', Head: 'data', Update: 'data' },
+          { Sr_no: 9, Date: 'data', Month: 'data', Vendor: 'data', Description: 'data', Bill_no: '13512', Amount: '6455', Head: 'data', Update: 'data' },
+          ]
+      }
+    },
+    computed: {
+      rows() {
+        return this.items.length
+      }
+    }
 }
 </script>
