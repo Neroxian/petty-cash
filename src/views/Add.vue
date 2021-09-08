@@ -3,7 +3,7 @@
     <nav class="navbar navbar-light">
       <div class="container row text-center">
         <div class="col col-lg-7 col-md-7 col-sm-12 col-12">
-          <h1>MKCL’s Petty Cash Expenses</h1>
+          <h2>MKCL’s Petty Cash Expenses</h2>
         </div>
         <div class="col col-lg-5 col-md-5 col-sm-12 col-12">
           <form class="nav-btn">
@@ -75,21 +75,19 @@
           </select>
           <div>
             <button
+              class="btn btn-sm btn-outline-dark "
               type="button"
               @click="showAddVendor = !showAddVendor"
             >
-              Show
+              Add vendor
             </button>
-            <div v-if="showAddVendor">
+            <div v-if="showAddVendor" class="optional">
               <form @submit.prevent="CreateNewVendor">
                 <input
+                  class="form-control add-form add-form-list"
                   type="text"
                   v-model="newVendorName"
-                >
-                <input
-                  type="submit"
-                  value="Add Vendor"
-                >
+                ><button class="btn btn-sm btn-danger m-1 ml-1" type="button">Add</button>
               </form>
             </div>
           </div>
@@ -141,21 +139,20 @@
           </select>
           <div>
             <button
+            class="btn btn-sm btn-outline-dark"
               type="button"
               @click="showAddHead = !showAddHead"
             >
-              Show
+              Add Head
             </button>
-            <div v-if="showAddHead">
+            <div v-if="showAddHead" class="optional">
               <form @submit.prevent="CreateNewHead">
                 <input
+                  class="form-control add-form add-form-list"
                   type="text"
                   v-model="newHeadName"
                 >
-                <input
-                  type="submit"
-                  value="Add Head"
-                >
+                <button class="btn btn-sm btn-danger  m-1 ml-1" type="button">Add</button>
               </form>
             </div>
           </div>
@@ -164,19 +161,20 @@
           <label
             for="formFile"
             class="form-label"
-          >Choose File :</label>
+          >Upload bill :</label>
           <input
             class="form-control add-form choose"
             type="file"
             id="formFile"
+            style="border: none"
             @change="handleFileChange"
           >
-          <button
+          <!-- <button
             id="uploadtBtn"
             @click="uploadFile"
           >
             Upload file
-          </button>
+          </button> -->
         </div>
       </div>
 
@@ -361,6 +359,7 @@ export default {
 <style scoped>
 .row {
   margin: 0;
+  padding: 0;
 }
 nav {
   margin: 10px 0 30px 0;
@@ -373,7 +372,10 @@ nav {
   display: inline-block;
 }
 .add-detail {
-  margin: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2.2rem;
 }
 .add-form {
   padding: 0;
@@ -390,6 +392,12 @@ nav {
 .choose {
   padding-left: 10px;
   border-radius: 3px;
+}
+.add-form-list{
+  width: 70%;
+}
+.optional{
+  float: right !important;
 }
 </style>
 /* eslint-disable */
