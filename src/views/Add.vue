@@ -151,17 +151,8 @@
             id="formFile"
             style="border: 1px solid black; padding: 5px"
             @change="handleFileChange"
-<<<<<<< HEAD
-          >
-          <button
-            class="btn btn-sm btn-dark"
-            id="uploadtBtn"
-            @click="uploadFile"
-          >
-=======
           />
           <button type="button" id="uploadtBtn" @click="uploadFile">
->>>>>>> 68e2afc2ddb303c603e5c60cb18fa714e21bf8a0
             Upload file
           </button>
         </div>
