@@ -2,10 +2,7 @@
   <div class="container">
     <div>
       <h1 class="mb-4">
-        <router-link
-          to="/Add"
-          style="color: black"
-        >
+        <router-link to="/Add" style="color: black">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
@@ -17,7 +14,8 @@
             <path
               fill-rule="evenodd"
               d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
-            /></svg>
+            />
+          </svg>
         </router-link>
         MKCL’s Petty Cash Expenses
       </h1>
@@ -25,16 +23,8 @@
 
     <div>
       <form @submit.prevent="searchForms">
-        <input
-          class="p-2"
-          type="date"
-          v-model="date"
-        >
-        <input
-          class="p-2"
-          type="submit"
-          value="Search!"
-        >
+        <input class="p-2" type="date" v-model="date" />
+        <input class="p-2" type="submit" value="Search!" />
       </form>
     </div>
 
@@ -50,13 +40,11 @@
             <td>Amount</td>
             <td>Expense Head</td>
             <td>File</td>
+            <td>Actions</td>
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="(data, idx) in formData"
-            :key="data.FormID"
-          >
+          <tr v-for="(data, idx) in formData" :key="data.FormID">
             <td>{{ idx + 1 }}</td>
             <td>{{ data.date }}</td>
             <td>{{ data.vendor }}</td>
@@ -65,100 +53,110 @@
             <td>₹ {{ data.amount }}</td>
             <td>{{ data.heads }}</td>
             <td>
-              <a
-                :href="data.uploadFilePath"
-                target="_blank"
-              ><button class="btn btn-sm btn-primary">View</button></a>
+              <a :href="data.uploadFilePath" target="_blank"
+                ><button class="btn btn-sm btn-primary">View</button></a
+              >
             </td>
             <td>
-                <b-button size="sm" v-b-modal.modal-1>Edit</b-button>
-                <b-modal id="modal-1" title="Update Form">
-                  <table class="table table-bordered">
-              <tbody>
-                <tr>
-                  <td class="deno">Date</td>
-                  <td class="deno">
-                    <input
-                      type="date"
-                      placeholder="0"
-                      v-model="he"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td class="deno">Office Wing</td>
-                  <td class="deno">
-                    <input
-                      type="text"
-                      placeholder="0"
-                      v-model="he"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td class="deno">Vendor name</td>
-                  <td class="deno">
-                    <input
-                      type="text"
-                      placeholder="0"
-                      v-model="he"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td class="deno">Bill number</td>
-                  <td class="deno">
-                    <input
-                      type="text"
-                      placeholder="0"
-                      v-model="he"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td class="deno">Description</td>
-                  <td class="deno">
-                    <input
-                      type="text"
-                      placeholder="0"
-                      v-model="he"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td class="deno">Total Amount</td>
-                  <td class="deno">
-                    <input
-                      type="text"
-                      placeholder="0"
-                      v-model="he"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td class="deno">Head</td>
-                  <td class="deno">
-                    <input
-                      type="text"
-                      placeholder="0"
-                      v-model="he"
-                    />
-                  </td>
-                </tr>
-                <tr>
-                  <td class="deno">Bill</td>
-                  <td class="deno">
-                    <input
-                      class="file-input"
-                      type="file"
-                      placeholder="0"
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            </b-modal>
-            <button class="btn btn-sm btn-danger ml-1">Delete</button></td>
+              <b-button
+                size="sm"
+                v-b-modal.modal-1
+                @click="selectForm(data.FormID)"
+                >Edit</b-button
+              >
+              <b-modal id="modal-1" title="Update Form" @ok="updateForm">
+                {{ toBeUpdated }}
+                <table class="table table-bordered">
+                  <tbody>
+                    <tr>
+                      <td class="deno">Date</td>
+                      <td class="deno">
+                        <input
+                          type="date"
+                          placeholder="0"
+                          v-model="toBeUpdated.date"
+                        />
+                      </td>
+                    </tr>
+                    <!-- <tr>
+                      <td class="deno">Office Wing</td>
+                      <td class="deno">
+                        <input type="text" placeholder="0" />
+                      </td>
+                    </tr> -->
+                    <tr>
+                      <td class="deno">Vendor name</td>
+                      <td class="deno">
+                        <input
+                          type="text"
+                          placeholder="0"
+                          v-model="toBeUpdated.vendor"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="deno">Bill number</td>
+                      <td class="deno">
+                        <input
+                          type="text"
+                          placeholder="0"
+                          v-model="toBeUpdated.billNumber"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="deno">Description</td>
+                      <td class="deno">
+                        <input
+                          type="text"
+                          placeholder="0"
+                          v-model="toBeUpdated.description"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="deno">Total Amount</td>
+                      <td class="deno">
+                        <input
+                          type="text"
+                          placeholder="0"
+                          v-model="toBeUpdated.amount"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="deno">Head</td>
+                      <td class="deno">
+                        <input
+                          type="text"
+                          placeholder="0"
+                          v-model="toBeUpdated.heads"
+                        />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="deno">Bill</td>
+                      <td class="deno">
+                        <input
+                          class="file-input"
+                          type="file"
+                          placeholder="0"
+                          @change="handleFileChange"
+                        />
+                        <button @click="uploadNewFile">Upload new file</button>
+                        <p>
+                          Selected file:
+                          <a :href="toBeUpdated.uploadFilePath" target="_blank"
+                            >File</a
+                          >
+                        </p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </b-modal>
+              <button class="btn btn-sm btn-danger ml-1">Delete</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -185,10 +183,7 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5
-                class="modal-title"
-                id="exampleModalLabel"
-              >
+              <h5 class="modal-title" id="exampleModalLabel">
                 Denomination Form
               </h5>
               <button
@@ -202,123 +197,103 @@
               <table class="table table-bordered table-hover">
                 <tbody>
                   <tr>
-                    <td class="deno">
-                      ₹2000 note
-                    </td>
+                    <td class="deno">₹2000 note</td>
                     <td class="deno">
                       <input
                         type="text"
                         placeholder="0"
                         v-model="expenses.twoThousands.num"
-                      >
+                      />
                     </td>
                   </tr>
                   <tr>
-                    <td class="deno">
-                      ₹500 note
-                    </td>
+                    <td class="deno">₹500 note</td>
                     <td class="deno">
                       <input
                         type="text"
                         placeholder="0"
                         v-model="expenses.fiveHundreds.num"
-                      >
+                      />
                     </td>
                   </tr>
                   <tr>
-                    <td class="deno">
-                      ₹200 note
-                    </td>
+                    <td class="deno">₹200 note</td>
                     <td class="deno">
                       <input
                         type="text"
                         placeholder="0"
                         v-model="expenses.twoHundreds.num"
-                      >
+                      />
                     </td>
                   </tr>
                   <tr>
-                    <td class="deno">
-                      ₹100 note
-                    </td>
+                    <td class="deno">₹100 note</td>
                     <td class="deno">
                       <input
                         type="text"
                         placeholder="0"
                         v-model="expenses.oneHundreds.num"
-                      >
+                      />
                     </td>
                   </tr>
                   <tr>
-                    <td class="deno">
-                      ₹50 note
-                    </td>
+                    <td class="deno">₹50 note</td>
                     <td class="deno">
                       <input
                         type="text"
                         placeholder="0"
                         v-model="expenses.fifties.num"
-                      >
+                      />
                     </td>
                   </tr>
                   <tr>
-                    <td class="deno">
-                      ₹20 note
-                    </td>
+                    <td class="deno">₹20 note</td>
                     <td class="deno">
                       <input
                         type="text"
                         placeholder="0"
                         v-model="expenses.twenties.num"
-                      >
+                      />
                     </td>
                   </tr>
                   <tr>
-                    <td class="deno">
-                      ₹10 note/coin
-                    </td>
+                    <td class="deno">₹10 note/coin</td>
                     <td class="deno">
                       <input
                         type="text"
                         placeholder="0"
                         v-model="expenses.tens.num"
-                      >
+                      />
                     </td>
                   </tr>
                   <tr>
-                    <td class="deno">
-                      ₹5 note/coin
-                    </td>
+                    <td class="deno">₹5 note/coin</td>
                     <td class="deno">
                       <input
                         type="text"
                         placeholder="0"
                         v-model="expenses.fives.num"
-                      >
+                      />
                     </td>
                   </tr>
                   <tr>
-                    <td class="deno">
-                      ₹2 note/coin
-                    </td>
+                    <td class="deno">₹2 note/coin</td>
                     <td class="deno">
                       <input
                         type="text"
                         placeholder="0"
                         v-model="expenses.twos.num"
-                      >
+                      />
                     </td>
                   </tr>
                   <tr>
-                    <td class="deno">
-                      ₹1 note/coin
-                    </td>
+                    <td class="deno">₹1 note/coin</td>
                     <td class="deno">
                       <input
                         type="text"
                         placeholder="0"
                         v-model="expenses.ones.num"
-                      >
+                      />
                     </td>
                   </tr>
                 </tbody>
@@ -326,22 +301,14 @@
               <h5>Total amount remaining : {{ totalAmount }}</h5>
             </div>
             <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-primary"
-              >
-                Submit
-              </button>
+              <button type="button" class="btn btn-primary">Submit</button>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="text-center">
-      <button
-        class="btn btn-lg btn-outline-danger mb-3"
-        type="submit"
-      >
+      <button class="btn btn-lg btn-outline-danger mb-3" type="submit">
         Submit report
       </button>
     </div>
@@ -369,118 +336,198 @@ td {
 </style>
 
 <script>
-import MQL from '@/plugins/mql.js'
+import MQL from "@/plugins/mql.js";
+import MQLCdn from "@/plugins/mqlCdn.js";
 
 const MONTHS = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
-]
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 export default {
-  name: 'Historynew',
-  data () {
+  name: "Historynew",
+  data() {
     return {
       perPage: 3,
-      date: '2021-09-30',
+      toBeUpdated: {},
+      toBeUpdatedFile: null,
+      date: "2021-09-30",
       currentPage: 1,
       formData: [],
       expenses: {
         twoThousands: {
           num: 0,
-          value: 2000
+          value: 2000,
         },
         fiveHundreds: {
           num: 0,
-          value: 500
+          value: 500,
         },
         twoHundreds: {
           num: 0,
-          value: 200
+          value: 200,
         },
         oneHundreds: {
           num: 0,
-          value: 100
+          value: 100,
         },
         fifties: {
           num: 0,
-          value: 50
+          value: 50,
         },
         twenties: {
           num: 0,
-          value: 20
+          value: 20,
         },
         tens: {
           num: 0,
-          value: 10
+          value: 10,
         },
         fives: {
           num: 0,
-          value: 5
+          value: 5,
         },
         twos: {
           num: 0,
-          value: 2
+          value: 2,
         },
         ones: {
           num: 0,
-          value: 1
-        }
-      }
-    }
+          value: 1,
+        },
+      },
+    };
   },
-  mounted () {
-    this.GetAllRequests()
+  mounted() {
+    this.GetAllRequests();
   },
   methods: {
-    GetAllRequests () {
-      const month = MONTHS[parseInt(this.date.split('-')[1], 10) - 1]
-      console.log(month)
-      const year = this.date.split('-')[0]
-      console.log(year)
+    GetAllRequests() {
+      const month = MONTHS[parseInt(this.date.split("-")[1], 10) - 1];
+      console.log(month);
+      const year = this.date.split("-")[0];
+      console.log(year);
       new MQL()
-        .setActivity('o.[query_1xqD5W4b5HEjiQW66cUXvoJy8e7]')
+        .setActivity("o.[query_1xqD5W4b5HEjiQW66cUXvoJy8e7]")
         .setData({
-          fetchId: '1xqD5W4b5HEjiQW66cUXvoJy8e7',
+          fetchId: "1xqD5W4b5HEjiQW66cUXvoJy8e7",
           year: year,
-          month: month
+          month: month,
         })
         .enablePageLoader(false)
         .fetch()
         .then((rs) => {
           // console.log(rs);
-          let res = rs.getActivity('FetchQueryData', true)
+          let res = rs.getActivity("FetchQueryData", true);
           // console.log(rs.getActivity("FetchQueryData", true));
           // console.log(res.result);
-          const queryId = Object.keys(res.result)[0]
+          const queryId = Object.keys(res.result)[0];
           if (res.result[queryId] !== null) {
-            this.formData = res.result[queryId][0].Forms
+            this.formData = res.result[queryId][0].Forms;
+            console.log(this.formData);
           } else {
-            this.formData = []
+            this.formData = [];
           }
           // console.log(formData)
+        });
+    },
+    updateRequest(FormID) {
+      this.expenses = this.expenses.filter((r) => r._FormID !== FormID);
+    },
+    searchForms() {
+      this.GetAllRequests();
+    },
+    selectForm(id) {
+      this.toBeUpdated = {
+        ...this.toBeUpdated,
+        ...this.formData.find((f) => f.FormID === id),
+      };
+    },
+    handleFileChange(e) {
+      // console.log(e.target.files[0])
+      this.toBeUpdatedFile = e.target.files[0];
+    },
+    uploadNewFile() {
+      let formData = new FormData();
+      formData.append("file", this.toBeUpdatedFile);
+      new MQLCdn()
+        .setDirectoryPath("/PettyCashDailyFormData")
+        .setFormData(formData) // (required) sets file data
+        .setFileName(Date.now() + "_bill") // (optional field) if you want to set name to
+        .setBucketKey("1xnt9sQlNf6XVS9zQHE8Tw05tzR") // (required) valid bucket key need to set in which file will be uploaded.
+        .setPurposeId("1xnsw8jkWppWVLosh1cGnqbXPWJ") // (required) valid purposeId need to set in which file will be uploaded.
+        // same as purposeID
+        .setClientId("1xnt9sQlNf6XVS9zQHE8Tw05tzR") // (required) valid purposeId need to set in which file will be uploaded.
+        .uploadFile("uploadtBtn")
+        .then((res) => {
+          // (required) this will upload file takes element id (optional param)
+          // which will be blocked while file upload..
+          console.log(res.uploadedFileURL());
+          if (res.isValid()) {
+            this.toBeUpdated = {
+              ...this.toBeUpdated,
+              uploadFilePath:
+                res.uploadedFileURL().cdnServer +
+                "/" +
+                res.uploadedFileURL().filePath,
+            };
+            console.log("res cdn path", this.uploadedFilePath);
+            this.$toasted.success("file uploaded.", {
+              theme: "bubble",
+              position: "top-center",
+              duration: 5000,
+            });
+          } else {
+            res.showErrorToast();
+          }
+        });
+    },
+    updateForm() {
+      // console.log("UPDATE");
+      const month = MONTHS[parseInt(this.toBeUpdated.date.split("-")[1], 10) - 1];
+      const year = this.toBeUpdated.date.split("-")[0];
+      new MQL()
+        .setActivity("o.[UpdatePettyCashDailyForms]")
+        .showConfirmDialog(true)
+
+        .setData({
+          FormID: this.toBeUpdated.FormID,
+          month: month,
+          year: year,
+          Forms: [
+            {
+              ...this.toBeUpdated,
+            },
+          ],
         })
+        .fetch()
+        .then((res) => {
+          console.log(res);
+          this.$bvToast.toast(`Bill Approved successfully`, {
+            toaster: "b-toaster-top-right",
+            title: "Successful",
+            autoHideDelay: 4000,
+            variant: "success",
+            solid: true,
+            toastClass: "toast",
+          });
+        });
     },
-    updateRequest (FormID) {
-      this.expenses = this.expenses.filter((r) => r._FormID !== FormID)
-    },
-    searchForms () {
-      this.GetAllRequests()
-    }
   },
   computed: {
     infone: function () {
       //   console.log(this.allRequests)
-      return this.allRequests.filter((i) => i.status === false)
+      return this.allRequests.filter((i) => i.status === false);
     },
     totalAmount: function () {
       return Object.keys(this.expenses).reduce((prevValue, key) => {
@@ -488,9 +535,9 @@ export default {
         return (
           prevValue +
           parseInt(this.expenses[key].num || 0, 10) * this.expenses[key].value
-        )
-      }, 0)
-    }
-  }
-}
+        );
+      }, 0);
+    },
+  },
+};
 </script>
