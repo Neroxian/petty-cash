@@ -1,128 +1,235 @@
 <style scoped>
-.row{
-        margin: 0;
-        padding: 0;
-    }
-    td{
-        padding: 0.4rem;
-        border: 1px solid gray; 
-    }
+.row {
+  margin: 0;
+  padding: 0;
+}
+td {
+  padding: 0.4rem;
+  border: 1px solid gray;
+}
+.deno{
+  width: 50%;
+}
+.file-input{
+  width: 100%;
+}
+input {
+  border-radius: 5px;
+  border: 1px solid rgb(190, 190, 190);
+}
 </style>
 
 <template>
-<div>
+  <div>
     <h2>Approved Bill</h2>
     <div class="overflow-auto text-center">
-        <table class="table mt-2">
-            <thead class="table-dark">
-            <tr >
-                <td>Form ID</td>
-                <td>Date</td>
-                <td>Vendor name</td>
-                <td>Bill No.</td>
-                <td>Description</td>
-                <td>Amount</td>
-                <td>Expense Head</td>
-                <td>File</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(data, idx) in formData" :key="data.FormID">
-                <td>{{ idx + 1 }}</td>
-                <td>{{ data.date }}</td>
-                <td>{{ data.vendor }}</td>
-                <td>{{ data.billNumber }}</td>
-                <td>{{ data.description }}</td>
-                <td>₹ {{ data.amount }}</td>
-                <td>{{ data.heads }}</td>
-                <td>
-                <a :href="data.uploadFilePath" target="_blank"><button class="btn btn-sm btn-primary">View</button></a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        </div>
+      <table class="table mt-2">
+        <thead class="table-dark">
+          <tr>
+            <td>Sr no.</td>
+            <td>Date</td>
+            <td>Vendor name</td>
+            <td>Bill No.</td>
+            <td>Description</td>
+            <td>Amount</td>
+            <td>Expense Head</td>
+            <td>File</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(data, idx) in formData" :key="data.FormID">
+            <td>{{ idx + 1 }}</td>
+            <td>{{ data.date }}</td>
+            <td>{{ data.vendor }}</td>
+            <td>{{ data.billNumber }}</td>
+            <td>{{ data.description }}</td>
+            <td>₹ {{ data.amount }}</td>
+            <td>{{ data.heads }}</td>
+            <td>
+              <a :href="data.uploadFilePath" target="_blank"
+                ><button class="btn btn-sm btn-primary">View</button></a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <h2 class="mt-3">Rejected Bill</h2>
     <div class="overflow-auto text-center">
-        <table class="table mt-2">
-            <thead class="table-dark">
-            <tr >
-                <td>Form ID</td>
-                <td>Date</td>
-                <td>Vendor name</td>
-                <td>Bill No.</td>
-                <td>Description</td>
-                <td>Amount</td>
-                <td>Expense Head</td>
-                <td>File</td>
-                <td>Update</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(data, idx) in formData" :key="data.FormID">
-                <td>{{ idx + 1 }}</td>
-                <td>{{ data.date }}</td>
-                <td>{{ data.vendor }}</td>
-                <td>{{ data.billNumber }}</td>
-                <td>{{ data.description }}</td>
-                <td>₹ {{ data.amount }}</td>
-                <td> {{ data.heads }} </td>
-                <td>
-                <a :href="data.uploadFilePath" target="_blank"><button class="btn btn-sm btn-primary">View</button></a>
-                </td>
-                <td><button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Update</button></td>
-            </tr>
-            </tbody>
-        </table>
-        </div>
-
-        <div
-        class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">
-                Denomination Form
-              </h5>
+      <table class="table mt-2">
+        <thead class="table-dark">
+          <tr>
+            <td>Sr no.</td>
+            <td>Date</td>
+            <td>Vendor name</td>
+            <td>Bill No.</td>
+            <td>Description</td>
+            <td>Amount</td>
+            <td>Expense Head</td>
+            <td>File</td>
+            <td>Update</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(data, idx) in formData" :key="data.FormID">
+            <td>{{ idx + 1 }}</td>
+            <td>{{ data.date }}</td>
+            <td>{{ data.vendor }}</td>
+            <td>{{ data.billNumber }}</td>
+            <td>{{ data.description }}</td>
+            <td>₹ {{ data.amount }}</td>
+            <td>{{ data.heads }}</td>
+            <td>
+              <a :href="data.uploadFilePath" target="_blank"
+                ><button class="btn btn-sm btn-primary">View</button></a
+              >
+            </td>
+            <td>
               <button
                 type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-    
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary">Submit</button>
-            </div>
+                class="btn btn-sm btn-danger"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              >
+                Update
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Update Form Data
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+
+          <div class="modal-body">
+            <table class="table table-bordered table-hover">
+              <tbody>
+                <tr>
+                  <td class="deno">Date</td>
+                  <td class="deno">
+                    <input
+                      type="date"
+                      placeholder="0"
+                      v-model="he"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="deno">Office Wing</td>
+                  <td class="deno">
+                    <input
+                      type="text"
+                      placeholder="0"
+                      v-model="he"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="deno">Vendor name</td>
+                  <td class="deno">
+                    <input
+                      type="text"
+                      placeholder="0"
+                      v-model="he"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="deno">Bill number</td>
+                  <td class="deno">
+                    <input
+                      type="text"
+                      placeholder="0"
+                      v-model="he"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="deno">Description</td>
+                  <td class="deno">
+                    <input
+                      type="text"
+                      placeholder="0"
+                      v-model="he"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="deno">Total Amount</td>
+                  <td class="deno">
+                    <input
+                      type="text"
+                      placeholder="0"
+                      v-model="he"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="deno">Head</td>
+                  <td class="deno">
+                    <input
+                      type="text"
+                      placeholder="0"
+                      v-model="he"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="deno">Bill</td>
+                  <td class="deno">
+                    <input
+                      class="file-input"
+                      type="file"
+                      placeholder="0"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">Submit</button>
           </div>
         </div>
       </div>
+    </div>
 
     <div class="m-1">
-        <label for="myfile">Upload R Form: </label>
-        <input type="file" id="myfile" name="myfile">
+      <label for="myfile">Upload R Form: </label>
+      <input type="file" id="myfile" name="myfile" />
     </div>
     <div class="m-1">
-        <label for="myfile">Upload T Form: </label>
-        <input type="file" id="myfile" name="myfile">
+      <label for="myfile">Upload T Form: </label>
+      <input type="file" id="myfile" name="myfile" />
     </div>
 
     <div class="text-center">
-        <button
-          class="btn btn-primary mb-3"
-          type="submit"
-        >
-          Download Report
-        </button>
-      </div>
-</div>
+      <button class="btn btn-primary mb-3" type="submit">
+        Download Report
+      </button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -144,14 +251,14 @@ const MONTHS = [
 ];
 
 export default {
-    name: 'Response',
-    data(){
-        return{
-            formData: [],
-            date: "2021-10-30",
-        }
-    },
-    mounted() {
+  name: "Response",
+  data() {
+    return {
+      formData: [],
+      date: "2021-10-30",
+    };
+  },
+  mounted() {
     this.GetAllRequests();
   },
   methods: {
@@ -174,15 +281,15 @@ export default {
           let res = rs.getActivity("FetchQueryData", true);
           // console.log(rs.getActivity("FetchQueryData", true));
           // console.log(res.result);
-          const queryId = Object.keys(res.result)[0]
+          const queryId = Object.keys(res.result)[0];
           if (res.result[queryId] !== null) {
-            this.formData = res.result[queryId][0].Forms
+            this.formData = res.result[queryId][0].Forms;
           } else {
-            this.formData = []
+            this.formData = [];
           }
           // console.log(formData)
         });
     },
-  }
-}
+  },
+};
 </script>
