@@ -56,7 +56,7 @@
             </td>
             <td>
                 <b-button size="sm" v-b-modal.modal-1>Edit</b-button>
-                <b-modal  id="modal-1" title="Update Form">
+                <b-modal id="modal-1" title="Update Form">
                   <table class="table table-bordered">
               <tbody>
                 <tr>
