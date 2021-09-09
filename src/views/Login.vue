@@ -52,24 +52,22 @@
 <script>
 export default {
   name: 'Login',
-  data(){
-    return{
-      username:'',
-      password:''
+  data () {
+    return {
+      username: '',
+      password: ''
     }
   },
-  methods:{
+  methods: {
     authenticate () {
       this.$store.dispatch('AUTH_REQUEST', { username: this.username, password: this.password }).then(res => {
         // Redirect to next page after suucessfull login
-        let role=res.raw.LoginAuth.result.Role
-        if (role=="Accountant"){
-          this.$router.push({name:'Accountant_table'})
-        }
-        else if(role=="Central Manager"){
-          this.$router.push({name:'Add'})
-        }        
-        else{
+        let role = res.raw.LoginAuth.result.Role
+        if (role == 'Accountant') {
+          this.$router.push({ name: 'Accountant_table' })
+        } else if (role == 'Central Manager') {
+          this.$router.push({ name: 'Add' })
+        } else {
           alert('Invalide password and username')
         }
       })
@@ -77,10 +75,9 @@ export default {
           alert(err)
           Vue.$log.error(err)
         })
-
+    }
   }
 }
-}  
 
 </script>
 

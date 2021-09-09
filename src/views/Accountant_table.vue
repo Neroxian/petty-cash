@@ -1,87 +1,110 @@
 <template>
-<div class="container">
+  <div class="container">
     <div>
-    <h1 class="">
-        <router-link to="/Add" style="color:black">
-        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
-        </svg></router-link>
-    MKCL’s Petty Cash Expenses</h1>
+      <h1 class="">
+        <router-link
+          to="/Add"
+          style="color:black"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="30"
+            height="30"
+            fill="currentColor"
+            class="bi bi-arrow-left"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
+            />
+          </svg>
+          <b-toaster
+            name="b-toaster-top-right"
+            class="position-absolute"
+            style="top: 4px; right: 4px"
+          />
+        </router-link>
+        MKCL’s Petty Cash Expenses
+      </h1>
     </div>
-        <div class="overflow-auto text-center">
-        <table class="table mt-2">
-            <thead class="table-dark">
-            <tr >
-                <td>Form ID</td>
-                <td>Date</td>
-                <td>Vendor name</td>
-                <td>Bill No.</td>
-                <td>Description</td>
-                <td>Amount</td>
-                <td>Expense Head</td>
-                <td>File</td>
-                <td>Status</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(data, idx) in formData" :key="data.FormID">
-                <td>{{ idx + 1 }}</td>
-                <td>{{ data.date }}</td>
-                <td>{{ data.vendor }}</td>
-                <td>{{ data.billNumber }}</td>
-                <td>{{ data.description }}</td>
-                <td>₹ {{ data.amount }}</td>
-                <td>{{ data.heads }}</td>
-                <td>
-                <a :href="data.uploadFilePath" target="_blank"><button class="btn btn-sm btn-primary">View</button></a>
-                </td>
-                <td>
-                    <button class="btn btn-sm btn-success m-1">Approve</button>
-                    <button class="btn btn-sm btn-danger m-1">Reject</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        </div>
-        <h4>Rejected Bill</h4>
-        <div class="overflow-auto text-center">
-        <table class="table mt-2">
-            <thead class="table-dark">
-            <tr >
-                <td>Form ID</td>
-                <td>Date</td>
-                <td>Vendor name</td>
-                <td>Bill No.</td>
-                <td>Description</td>
-                <td>Amount</td>
-                <td>Expense Head</td>
-                <td>File</td>
-                <td>Status</td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(data, idx) in formData" :key="data.FormID">
-                <td>{{ idx + 1 }}</td>
-                <td>{{ data.date }}</td>
-                <td>{{ data.vendor }}</td>
-                <td>{{ data.billNumber }}</td>
-                <td>{{ data.description }}</td>
-                <td>₹ {{ data.amount }}</td>
-                <td>{{ data.heads }}</td>
-                <td>
-                <a :href="data.uploadFilePath" target="_blank"><button class="btn btn-sm btn-primary">View</button></a>
-                </td>
-                <td>Rejected</td>
-            </tr>
-            </tbody>
-        </table>
-        </div>
-         <div class="row container form-group ">
-            <div class="col-lg-1 col-md-1 col-12 p-0"><label for="exampleFormControlTextarea1">Remark :</label></div>
-            <div class="col-lg-11 col-md-11 col-12 p-0"><textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea></div>
-        </div>
-        <div class="text-center"><button class="btn btn-danger m-3" type="submit">Approve</button></div>
-</div>
+    <div>
+      <form @submit.prevent="searchForms">
+        <input
+          class="p-2"
+          type="date"
+          v-model="date"
+        >
+        <input
+          class="p-2"
+          type="submit"
+          value="Search!"
+        >
+      </form>
+    </div>
+    <div class="overflow-auto text-center">
+      <table class="table mt-2">
+        <thead class="table-dark">
+          <tr>
+            <td>Sr. No</td>
+            <td>Date</td>
+            <td>Vendor name</td>
+            <td>Bill No.</td>
+            <td>Description</td>
+            <td>Amount</td>
+            <td>Expense Head</td>
+            <td>File</td>
+            <td>Status</td>
+            <td>Remark</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="(data, idx) in formData"
+            :key="data.FormID"
+          >
+            <template v-if="data.billStatus === 'pending'">
+              <td>{{ idx }}</td>
+              <td>{{ data.date }}</td>
+              <td>{{ data.vendor }}</td>
+              <td>{{ data.billNumber }}</td>
+              <td>{{ data.description }}</td>
+              <td>₹ {{ data.amount }}</td>
+              <td>{{ data.expenseHead }}</td>
+              <td>
+                <a
+                  :href="data.uploadFilePath"
+                  target="_blank"
+                ><button class="btn btn-sm btn-primary">View</button></a>
+              </td>
+              <td>
+                <button
+                  class="btn btn-sm btn-success m-1"
+                  @click="approveBill(data)"
+                >
+                  Approve
+                </button>
+                <button
+                  class="btn btn-sm btn-danger m-1"
+                  @click="rejectBill(data)"
+                >
+                  Reject
+                </button>
+              </td>
+              <td>
+                <textarea
+                  class="form-control"
+                  rows="2"
+                  placeholder="Type remark if rejected!"
+                  v-model="remark"
+                />
+              </td>
+            </template>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -95,71 +118,153 @@
     }
     td{
         padding: 0.4rem;
-        border: 1px solid gray; 
+        border: 1px solid gray;
     }
 </style>
 
 <script>
-import MQL from "@/plugins/mql.js";
-
+import MQL from '@/plugins/mql.js'
+import {
+  BToaster
+} from 'bootstrap-vue'
 const MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+]
 
 export default {
-    name : 'Accountant_table',
-    data(){
-        return{
-            formData: [],
-            date: "2021-10-30",
-        }
-    },
-    mounted() {
-    this.GetAllRequests();
+  name: 'AccountantTable',
+  data () {
+    return {
+      formData: [],
+      date: '2021-12-30'
+      // remark: 'Type remark if rejected!'
+    }
   },
-  methods: {
-    GetAllRequests() {
-      const month = MONTHS[parseInt(this.date.split("-")[1], 10) - 1];
-      console.log(month);
-      const year = this.date.split("-")[0];
-      console.log(year);
-      new MQL()
-        .setActivity("o.[query_1xqD5W4b5HEjiQW66cUXvoJy8e7]")
-        .setData({
-          fetchId: "1xqD5W4b5HEjiQW66cUXvoJy8e7",
-          year: year,
-          month: month,
-        })
-        .enablePageLoader(false)
-        .fetch()
-        .then((rs) => {
-          // console.log(rs);
-          let res = rs.getActivity("FetchQueryData", true);
-          // console.log(rs.getActivity("FetchQueryData", true));
-          // console.log(res.result);
-          const queryId = Object.keys(res.result)[0]
-          if (res.result[queryId] !== null) {
-            this.formData = res.result[queryId][0].Forms
-          } else {
-            this.formData = []
+  components: {
+    'b-toaster': BToaster
+  },
+  mounted () {
+    this.GetAllRequests()
+  },
+  methods: { searchForms () {
+    this.GetAllRequests()
+  },
+  GetAllRequests () {
+    const month = MONTHS[parseInt(this.date.split('-')[1], 10) - 1]
+    console.log(month)
+    const year = this.date.split('-')[0]
+    console.log(year)
+    new MQL()
+      .setActivity('o.[query_1xqD5W4b5HEjiQW66cUXvoJy8e7]')
+      .setData({
+        fetchId: '1xqD5W4b5HEjiQW66cUXvoJy8e7',
+        year: year,
+        month: month
+      })
+      .enablePageLoader(false)
+      .fetch()
+      .then((rs) => {
+        let res = rs.getActivity('FetchQueryData', true)
+        const queryId = Object.keys(res.result)[0]
+        if (res.result[queryId] !== null) {
+          this.formData = res.result[queryId][0].Forms
+        } else {
+          this.formData = []
+        }
+      })
+  },
+  updateRequest (FormID) {
+    this.expenses = this.expenses.filter((r) => r._FormID !== FormID)
+  },
+  approveBill (bill) {
+    const month = MONTHS[parseInt(this.date.split('-')[1], 10) - 1]
+    const year = this.date.split('-')[0]
+    new MQL()
+      .setActivity('o.[UpdatePettyCashDailyForms]')
+      .showConfirmDialog(true)
+
+      .setData({
+        'FormID': bill.FormID,
+        'month': month,
+        'year': year,
+        'Forms': [
+          {
+            'FormID': bill.FormID,
+            'amount': bill.amount,
+            'billNumber': bill.billNumber,
+            'date': bill.date,
+            'description': bill.description,
+            'expenseHead': bill.expenseHead,
+            'uploadFilePath': bill.uploadFilePath,
+            'vendor': bill.vendor,
+            'billStatus': 'approved'
           }
-          // console.log(formData)
-        });
-    },
-    updateRequest(FormID) {
-      this.expenses = this.expenses.filter((r) => r._FormID !== FormID);
-    },
+        ]
+      })
+      .fetch()
+      .then((res) => {
+        console.log(res)
+        this.$bvToast.toast(`Bill Approved successfully`, {
+          toaster: 'b-toaster-top-right',
+          title: 'Successful',
+          autoHideDelay: 4000,
+          variant: 'success',
+          solid: true,
+          toastClass: 'toast'
+        })
+      })
+  },
+  rejectBill (bill) {
+    const month = MONTHS[parseInt(this.date.split('-')[1], 10) - 1]
+    const year = this.date.split('-')[0]
+    const remark = this.remark
+    new MQL()
+      .setActivity('o.[UpdatePettyCashDailyForms]')
+      .showConfirmDialog(true)
+
+      .setData({
+        'FormID': bill.FormID,
+        'month': month,
+        'year': year,
+        'Forms': [
+          {
+            'FormID': bill.FormID,
+            'amount': bill.amount,
+            'billNumber': bill.billNumber,
+            'date': bill.date,
+            'description': bill.description,
+            'expenseHead': bill.expenseHead,
+            'uploadFilePath': bill.uploadFilePath,
+            'vendor': bill.vendor,
+            'billStatus': 'rejected',
+            'remark': remark
+          }
+        ]
+      })
+      .fetch()
+      .then((res) => {
+        console.log(res)
+        this.$bvToast.toast(`Bill Rejected successfully`, {
+          toaster: 'b-toaster-top-right',
+          title: 'Successful',
+          autoHideDelay: 4000,
+          variant: 'success',
+          solid: true,
+          toastClass: 'toast'
+        })
+      })
+  }
   }
 }
 </script>
