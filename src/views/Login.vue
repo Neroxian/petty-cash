@@ -38,6 +38,7 @@
         <div class="text-center">
           <button
             type="submit"
+            id="loginbtn"
             class="btn btn-primary"
             @click="authenticate()"
           >
