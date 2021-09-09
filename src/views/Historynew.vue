@@ -31,7 +31,7 @@
       <table class="table mt-2">
         <thead class="table-dark">
           <tr >
-            <td>Form ID</td>
+            <td>Sr no.</td>
             <td>Date</td>
             <td>Vendor name</td>
             <td>Bill No.</td>
@@ -39,6 +39,7 @@
             <td>Amount</td>
             <td>Expense Head</td>
             <td>File</td>
+            <td>Actions</td>
           </tr>
         </thead>
         <tbody>
@@ -53,10 +54,101 @@
             <td>
               <a :href="data.uploadFilePath" target="_blank"><button class="btn btn-sm btn-primary">View</button></a>
             </td>
+            <td>
+                <b-button size="sm" v-b-modal.modal-1>Edit</b-button>
+                <b-modal  id="modal-1" title="Update Form">
+                  <table class="table table-bordered">
+              <tbody>
+                <tr>
+                  <td class="deno">Date</td>
+                  <td class="deno">
+                    <input
+                      type="date"
+                      placeholder="0"
+                      v-model="he"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="deno">Office Wing</td>
+                  <td class="deno">
+                    <input
+                      type="text"
+                      placeholder="0"
+                      v-model="he"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="deno">Vendor name</td>
+                  <td class="deno">
+                    <input
+                      type="text"
+                      placeholder="0"
+                      v-model="he"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="deno">Bill number</td>
+                  <td class="deno">
+                    <input
+                      type="text"
+                      placeholder="0"
+                      v-model="he"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="deno">Description</td>
+                  <td class="deno">
+                    <input
+                      type="text"
+                      placeholder="0"
+                      v-model="he"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="deno">Total Amount</td>
+                  <td class="deno">
+                    <input
+                      type="text"
+                      placeholder="0"
+                      v-model="he"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="deno">Head</td>
+                  <td class="deno">
+                    <input
+                      type="text"
+                      placeholder="0"
+                      v-model="he"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="deno">Bill</td>
+                  <td class="deno">
+                    <input
+                      class="file-input"
+                      type="file"
+                      placeholder="0"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            </b-modal>
+            <button class="btn btn-sm btn-danger ml-1">Delete</button></td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    
 
     <div class="text-center">
       <button
@@ -219,7 +311,7 @@ b-pagination {
   box-shadow: none;
 }
 .deno {
-  width: 50%;
+  width: auto;
 }
 input {
   border-radius: 5px;
