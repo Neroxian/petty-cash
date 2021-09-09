@@ -37,7 +37,7 @@ export const actions = {
         .setLoginActivity()
         .setData(payload)
       // .showConfirmDialog(true)
-        .fetch()
+        .fetch('loginbtn')
         .then((response) => {
           // response.hideElement('loginFormId')
           // console.log(response)
