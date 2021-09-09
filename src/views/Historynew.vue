@@ -31,7 +31,7 @@
       <table>
         <thead>
           <tr>
-            <td>Form ID</td>
+            <td>Sr no.</td>
             <td>Date</td>
             <td>Vendor name</td>
             <td>Bill No.</td>
