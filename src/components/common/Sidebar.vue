@@ -44,6 +44,15 @@
             <router-link to="/login">
               <i class="mdi mdi-account sidebar-icon" /> Login
             </router-link>
+            <router-link to="/accountant">
+              <i class="mdi mdi-account sidebar-icon" /> Accountant
+            </router-link>
+            <router-link to="/response">
+              <i class="mdi mdi-account sidebar-icon" /> Response
+            </router-link>
+            <router-link to="/historyn">
+              <i class="mdi mdi-account sidebar-icon" /> History
+            </router-link>
           </li>
         </ul>
       </div>
