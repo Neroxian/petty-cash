@@ -28,17 +28,10 @@
     </div>
 
     <div class="overflow-auto text-center">
-<<<<<<< HEAD
-      <table>
-        <thead>
-          <tr>
-            <td>Sr no.</td>
-=======
       <table class="table mt-2">
         <thead class="table-dark">
           <tr >
             <td>Form ID</td>
->>>>>>> eb1b89c2ad0c9c15c230573b8e60e6e211a27650
             <td>Date</td>
             <td>Vendor name</td>
             <td>Bill No.</td>

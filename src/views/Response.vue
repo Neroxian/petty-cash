@@ -1,69 +1,110 @@
 <style scoped>
+.row{
+        margin: 0;
+        padding: 0;
+    }
+    td{
+        padding: 0.4rem;
+        border: 1px solid gray; 
+    }
 </style>
 
 <template>
 <div>
     <h2>Approved Bill</h2>
-    <table class="table table-secondary text-center mt-3">
-    <thead class="table-dark">
-      <tr>
-        <th scope="col">Sr no.</th>
-        <th scope="col">Date</th>
-        <th scope="col">Month</th>
-        <th scope="col">Vendor</th>
-        <th scope="col">Description</th>
-        <th scope="col">Bill no.</th>
-        <th scope="col">Amount</th>
-        <th scope="col">Head</th>
-        <th scope="col">Remark</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Hello</td>
-        <td>Hello</td>
-        <td>Hello</td>
-        <td>Hello</td>
-        <td>Hello</td>
-        <td>Hello</td>
-        <td>Hello</td>
-        <td>Hello</td>
-        <td width="20%">Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello Hello </td>
-      </tr>
-    </tbody>
-  </table>
+    <div class="overflow-auto text-center">
+        <table class="table mt-2">
+            <thead class="table-dark">
+            <tr >
+                <td>Form ID</td>
+                <td>Date</td>
+                <td>Vendor name</td>
+                <td>Bill No.</td>
+                <td>Description</td>
+                <td>Amount</td>
+                <td>Expense Head</td>
+                <td>File</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(data, idx) in formData" :key="data.FormID">
+                <td>{{ idx + 1 }}</td>
+                <td>{{ data.date }}</td>
+                <td>{{ data.vendor }}</td>
+                <td>{{ data.billNumber }}</td>
+                <td>{{ data.description }}</td>
+                <td>₹ {{ data.amount }}</td>
+                <td>{{ data.heads }}</td>
+                <td>
+                <a :href="data.uploadFilePath" target="_blank"><button class="btn btn-sm btn-primary">View</button></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
 
     <h2 class="mt-3">Rejected Bill</h2>
-    <table class="table table-secondary text-center mt-3">
-    <thead class="table-dark">
-      <tr>
-        <th scope="col">Sr no.</th>
-        <th scope="col">Date</th>
-        <th scope="col">Month</th>
-        <th scope="col">Vendor</th>
-        <th scope="col">Description</th>
-        <th scope="col">Bill no.</th>
-        <th scope="col">Amount</th>
-        <th scope="col">Head</th>
-        <th scope="col">Remark</th>
-        <th scope="col">Edit</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>ghvhhgv</td>
-        <td>ghvhhgv</td>
-        <td>ghvhhgv</td>
-        <td>ghvhhgv</td>
-        <td>ghvhhgv</td>
-        <td>ghvhhgv</td>
-        <td>ghvhhgv</td>
-        <td>ghvhhgv</td>
-        <td width="20%">Hello Hello Hello Hello Hello Hello Hello Hello </td>
-        <td><button class="btn btn-dark" type="submit">Edit</button></td>
-      </tr>
-    </tbody>
-  </table>
+    <div class="overflow-auto text-center">
+        <table class="table mt-2">
+            <thead class="table-dark">
+            <tr >
+                <td>Form ID</td>
+                <td>Date</td>
+                <td>Vendor name</td>
+                <td>Bill No.</td>
+                <td>Description</td>
+                <td>Amount</td>
+                <td>Expense Head</td>
+                <td>File</td>
+                <td>Update</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(data, idx) in formData" :key="data.FormID">
+                <td>{{ idx + 1 }}</td>
+                <td>{{ data.date }}</td>
+                <td>{{ data.vendor }}</td>
+                <td>{{ data.billNumber }}</td>
+                <td>{{ data.description }}</td>
+                <td>₹ {{ data.amount }}</td>
+                <td> {{ data.heads }} </td>
+                <td>
+                <a :href="data.uploadFilePath" target="_blank"><button class="btn btn-sm btn-primary">View</button></a>
+                </td>
+                <td><button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Update</button></td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Denomination Form
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+    
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     <div class="m-1">
         <label for="myfile">Upload R Form: </label>
         <input type="file" id="myfile" name="myfile">
@@ -85,7 +126,63 @@
 </template>
 
 <script>
+import MQL from "@/plugins/mql.js";
+
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 export default {
     name: 'Response',
+    data(){
+        return{
+            formData: [],
+            date: "2021-10-30",
+        }
+    },
+    mounted() {
+    this.GetAllRequests();
+  },
+  methods: {
+    GetAllRequests() {
+      const month = MONTHS[parseInt(this.date.split("-")[1], 10) - 1];
+      console.log(month);
+      const year = this.date.split("-")[0];
+      console.log(year);
+      new MQL()
+        .setActivity("o.[query_1xqD5W4b5HEjiQW66cUXvoJy8e7]")
+        .setData({
+          fetchId: "1xqD5W4b5HEjiQW66cUXvoJy8e7",
+          year: year,
+          month: month,
+        })
+        .enablePageLoader(false)
+        .fetch()
+        .then((rs) => {
+          // console.log(rs);
+          let res = rs.getActivity("FetchQueryData", true);
+          // console.log(rs.getActivity("FetchQueryData", true));
+          // console.log(res.result);
+          const queryId = Object.keys(res.result)[0]
+          if (res.result[queryId] !== null) {
+            this.formData = res.result[queryId][0].Forms
+          } else {
+            this.formData = []
+          }
+          // console.log(formData)
+        });
+    },
+  }
 }
 </script>
