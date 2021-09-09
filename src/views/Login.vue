@@ -10,12 +10,13 @@
       <form>
         <h2>Login</h2>
         <div class="form-group">
-          <label>Email address</label>
+          <label>Username</label>
           <input
             type="text"
             class="form-control"
             aria-describedby="emailHelp"
             placeholder="Enter Username"
+            v-model="username"
           >
         </div>
         <div class="form-group">
@@ -24,6 +25,7 @@
             type="password"
             class="form-control"
             placeholder="Enter Password"
+            v-model="password"
           >
         </div>
         <div class="form-group form-check">
@@ -37,6 +39,7 @@
           <button
             type="submit"
             class="btn btn-primary"
+            @click="authenticate()"
           >
             Submit
           </button>
@@ -48,8 +51,37 @@
 
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
+  data(){
+    return{
+      username:'',
+      password:''
+    }
+  },
+  methods:{
+    authenticate () {
+      this.$store.dispatch('AUTH_REQUEST', { username: this.username, password: this.password }).then(res => {
+        // Redirect to next page after suucessfull login
+        let role=res.raw.LoginAuth.result.Role
+        if (role=="Accountant"){
+          this.$router.push({name:'Accountant_table'})
+        }
+        else if(role=="Central Manager"){
+          this.$router.push({name:'Add'})
+        }        
+        else{
+          alert('Invalide password and username')
+        }
+      })
+        .catch(err => {
+          alert(err)
+          Vue.$log.error(err)
+        })
+
+  }
 }
+}  
+
 </script>
 
 <style scoped>
