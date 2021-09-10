@@ -1,5 +1,6 @@
 <template>
-  <div class="container-fluid g-0 row">
+  <div class="container-fluid row">
+    <Navbar />
     <div class="col col-lg-6 col-md-6 col-sm-12 col-xs-12">
       <img
         src="../assets/mkcl-main.png"
@@ -51,8 +52,13 @@
 </template>
 
 <script>
+import Navbar from '@/components/common/Navbar.vue'
+
 export default {
   name: 'Login',
+  components:{
+    Navbar
+  },
   data () {
     return {
       username: '',
@@ -63,10 +69,9 @@ export default {
     authenticate () {
       this.$store.dispatch('AUTH_REQUEST', { username: this.username, password: this.password }).then(res => {
         // Redirect to next page after suucessfull login
-        let role = res.raw.LoginAuth.result.Role
-        if (role == 'Accountant') {
+        if (sessionStorage.getItem('role') == 'Accountant') {
           this.$router.push({ name: 'Accountant_table' })
-        } else if (role == 'Central Manager') {
+        } else if (sessionStorage.getItem('role')  == 'Central Manager') {
           this.$router.push({ name: 'Add' })
         } else {
           alert('Invalide password and username')

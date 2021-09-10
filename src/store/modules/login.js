@@ -9,7 +9,8 @@ export const state = {
 
 export const getters = {
   isAuthenticated: (state) => !!state.token,
-  authStatus: (state) => state.status
+  authStatus: (state) => state.status  
+
 }
 
 export const mutations = {
@@ -43,7 +44,9 @@ export const actions = {
           // console.log(response)
           if (response.isValid('LoginAuth')) {
             let token = response.getHeaders().authorization
+            let role = response.raw.LoginAuth.result.Role
             sessionStorage.setItem('user-token', token)
+            sessionStorage.setItem('role',role)
             commit(types.MUTATE_AUTH_SUCCESS, response)
             resolve(response)
           } else {
@@ -58,6 +61,7 @@ export const actions = {
   AUTH_LOGOUT: () => {
     return new Promise((resolve) => {
       sessionStorage.removeItem('user-token')
+      sessionStorage.removeItem('role')
       // remove the axios default header
       // delete axios.defaults.headers.common['Authorization']
       router.push({

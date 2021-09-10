@@ -4,13 +4,13 @@
       <tr>
         <th scope="col">
           Sr no.
+        </th>        
+        <th scope="col">
+          Office
         </th>
         <th scope="col">
           Date
-        </th>
-        <th scope="col">
-          Month
-        </th>
+        </th>        
         <th scope="col">
           Vendor
         </th>
@@ -34,8 +34,8 @@
         :key="idx"
       >
         <td>{{ idx }}</td>
-        <td>{{ info.mydate }}</td>
         <td>{{ info.office }}</td>
+        <td>{{ info.date }}</td>
         <td>{{ info.vname }}</td>
         <td>{{ info.description }}</td>
         <td>{{ info.billno }}</td>

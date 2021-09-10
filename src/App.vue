@@ -11,7 +11,7 @@
     </div>
 
     <div class="wrapper">
-      <sidebar />
+      <!-- <Sidebar />       -->
       <div class="column column2">
         <router-view :key="$route.fullPath" />
       </div>
@@ -20,11 +20,11 @@
 </template>
 
 <script>
-import Sidebar from '@/components/common/Sidebar'
+// import Sidebar  from '@/components/common/Sidebar.vue'
 export default {
   name: 'App',
   components: {
-    Sidebar
+    //  Sidebar
   },
   metaInfo: {
     meta: [
@@ -32,7 +32,7 @@ export default {
         vmid: 'description',
         name: 'description',
         content: 'Test title',
-        template: chunk => `${chunk} - FullStack`
+        template: chunk => `${chunk}`
       }
     ]
   }
