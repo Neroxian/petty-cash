@@ -37,13 +37,7 @@ const routes= [
       name: 'response',
       component: loadView('Response'),
       meta: { title: 'Response', lang: 'mr', icon : 'mdi mdi-account',requiresAuth:true, centralAuth:true, accountantAuth:false }
-    },
-    {
-      path: '/history',
-      name: 'History',
-      component: loadView('History'),
-      meta: { title: 'History', lang: 'mr', icon : 'mdi mdi-account',requiresAuth:true, centralAuth:true, accountantAuth:false }
-    },
+    },   
     {
       path: '/accountant',
       name: 'Accountant_table',
@@ -51,12 +45,18 @@ const routes= [
       meta: { title: 'Accountant_table', lang: 'mr', icon : 'mdi mdi-account',requiresAuth:true, centralAuth:false, accountantAuth:true }
     },
     {
+      path: '/adminReport',
+      name: 'adminReport',
+      component: loadView('AdminReport'),
+      meta: { title: 'Report', lang: 'mr', icon : 'mdi mdi-account',requiresAuth:true, centralAuth:false, accountantAuth:true }
+    },
+    {
       path: '/historyn',
       name: 'Historynew',
       component: loadView('Historynew'),
-      meta: { title: 'Historynew', lang: 'mr', icon : 'mdi mdi-account',requiresAuth:true, centralAuth:true, accountantAuth:false }
+      meta: { title: 'History', lang: 'mr', icon : 'mdi mdi-account',requiresAuth:true, centralAuth:true, accountantAuth:false }
     }
-  ]
+  ]  
   const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,

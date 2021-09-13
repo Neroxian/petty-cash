@@ -15,17 +15,6 @@
         </button>
       </router-link>
       <router-link
-        to="/accountant_table"
-        class="nav-link"
-      >
-        <button
-          type="button"
-          class="btn btn-lg btn-primary"
-        >
-          Accountant
-        </button>
-      </router-link>
-      <router-link
         to="/add"
         class="nav-link"
       >
@@ -33,7 +22,7 @@
           type="button"
           class="btn btn-lg btn-primary"
         >
-          Management
+          Accountant
         </button>
       </router-link>
     </div>

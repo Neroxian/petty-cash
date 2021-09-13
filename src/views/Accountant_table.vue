@@ -40,12 +40,13 @@
             <td>Remark</td>
           </tr>
         </thead>
-        <tbody>
+                    
+        <tbody  v-if=" status === 'Accountant'">
           <tr
             v-for="(data, idx) in formData"
             :key="data.FormID"
           >
-            <template v-if="data.billStatus === 'pending'">
+          <template  v-if=" data.billStatus === 'pending'" >  
               <td>{{ idx }}</td>
               <td>{{ data.date }}</td>
               <td>{{ data.vendor }}</td>
@@ -131,6 +132,7 @@ export default {
   
   data () {
     return {
+      status:null,
       formData: [],
       date: '2021-12-30'
       // remark: 'Type remark if rejected!'
@@ -141,10 +143,10 @@ export default {
     Navbar
   },
   mounted () {
-    this.GetAllRequests()
+    this.GetAllRequests()  
   },
   methods: { searchForms () {
-    this.GetAllRequests()
+    this.GetAllRequests()   
   },
   GetAllRequests () {
     const month = MONTHS[parseInt(this.date.split('-')[1], 10) - 1]
@@ -165,11 +167,14 @@ export default {
         const queryId = Object.keys(res.result)[0]
         if (res.result[queryId] !== null) {
           this.formData = res.result[queryId][0].Forms
+          this.status = res.result[queryId][0].currentApprovalStatus          
         } else {
           this.formData = []
+          this.status=null          
         }
       })
-  },
+  }, 
+
   updateRequest (FormID) {
     this.expenses = this.expenses.filter((r) => r._FormID !== FormID)
   },

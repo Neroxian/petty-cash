@@ -279,14 +279,14 @@ export default {
               billNumber: this.info.billno,
               date: this.info.date,
               description: this.info.description,
-              heads: this.info.head,
+              expenseHead: this.info.head,
               vendor: this.info.vname,
               FormID: uuidv4(),
+              billStatus:"pending"
             },
           ],
           currentApprovalStatus: "centeral manager",
-          month: month,
-          workflowStage: "1",
+          month: month,         
           year: year,
         })
         .enablePageLoader(true)

@@ -1,25 +1,6 @@
 <template>
   <div class="container">
-    <div>
-      <h1 class="mb-4">
-        <router-link to="/Add" style="color: black">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="30"
-            height="30"
-            fill="currentColor"
-            class="bi bi-arrow-left"
-            viewBox="0 0 16 16"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"
-            />
-          </svg>
-        </router-link>
-        MKCL’s Petty Cash Expenses
-      </h1>
-    </div>
+    <Navbar /><br />
 
     <div>
       <form @submit.prevent="searchForms">
@@ -64,8 +45,7 @@
                 @click="selectForm(data.FormID)"
                 >Edit</b-button
               >
-              <b-modal id="modal-1" title="Update Form" @ok="updateForm">
-                {{ toBeUpdated }}
+              <b-modal id="modal-1" title="Update Form" @ok="updateForm">              
                 <table class="table table-bordered">
                   <tbody>
                     <tr>
@@ -308,7 +288,11 @@
       </div>
     </div>
     <div class="text-center">
-      <button class="btn btn-lg btn-outline-danger mb-3" type="submit">
+      <button
+        class="btn btn-lg btn-outline-danger mb-3"
+        type="submit"
+        @click="monthReportSub"
+      >
         Submit report
       </button>
     </div>
@@ -338,7 +322,7 @@ td {
 <script>
 import MQL from "@/plugins/mql.js";
 import MQLCdn from "@/plugins/mqlCdn.js";
-
+import Navbar from '@/components/common/Navbar.vue'
 const MONTHS = [
   "January",
   "February",
@@ -354,8 +338,11 @@ const MONTHS = [
   "December",
 ];
 
-export default {
+export default {  
   name: "Historynew",
+  components:{
+   Navbar
+  },
   data() {
     return {
       perPage: 3,
@@ -414,9 +401,9 @@ export default {
   methods: {
     GetAllRequests() {
       const month = MONTHS[parseInt(this.date.split("-")[1], 10) - 1];
-      console.log(month);
+      // console.log(month);
       const year = this.date.split("-")[0];
-      console.log(year);
+      // console.log(year);
       new MQL()
         .setActivity("o.[query_1xqD5W4b5HEjiQW66cUXvoJy8e7]")
         .setData({
@@ -441,6 +428,33 @@ export default {
           // console.log(formData)
         });
     },
+    monthReportSub(){
+      const month = MONTHS[parseInt(this.date.split("-")[1], 10) - 1];
+      console.log(month);
+      const year = this.date.split("-")[0];
+      console.log(year);
+       new MQL()
+        .setActivity("o.[UpdatePettyCashForms]")
+        .showConfirmDialog(true)
+
+        .setData({
+          month: month,
+          year: year,
+          currentApprovalStatus: "Accountant"
+        })
+        .fetch()
+        .then((res) => {
+          console.log(res);
+          this.$bvToast.toast(`Bill Approved successfully`, {
+            toaster: "b-toaster-top-right",
+            title: "Successful",
+            autoHideDelay: 4000,
+            variant: "success",
+            solid: true,
+            toastClass: "toast",
+          });
+        });
+    },   
     updateRequest(FormID) {
       this.expenses = this.expenses.filter((r) => r._FormID !== FormID);
     },
@@ -540,4 +554,5 @@ export default {
     },
   },
 };
+
 </script>
