@@ -13,29 +13,24 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item>
           <router-link v-if="role === 'Central Manager'" to="/response">
-            Response 
+            Response
           </router-link>
-        </b-nav-item> 
+        </b-nav-item>
         <b-nav-item>
           <router-link v-if="role === 'Central Manager'" to="/historyn">
-            History 
+            History
           </router-link>
-        </b-nav-item> 
+        </b-nav-item>
         <b-nav-item>
           <router-link v-if="role === 'Central Manager'" to="/add">
-            Home </router-link>
-        </b-nav-item>        
-        <b-nav-item>
-         <router-link v-if="role === 'Accountant'" to="/accountant">
-            Home </router-link>
-        </b-nav-item> 
-        <b-nav-item>
-          <router-link v-if="role === 'Accountant'" to="/adminReport">
-            Report </router-link>
-        </b-nav-item> 
+            Home
+          </router-link>
+        </b-nav-item>
 
         <b-nav-item>
-          <a v-if="role != null" @click="logout">Logout</a>
+          <a v-if="role != null" @click="logout"
+            ><button class="btn btn-danger">Logout</button></a
+          >
         </b-nav-item>
       </b-navbar-nav>
     </b-navbar>
@@ -64,3 +59,6 @@ export default {
   },
 };
 </script>
+<style scoped>
+
+</style>

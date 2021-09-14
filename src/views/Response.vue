@@ -1,15 +1,21 @@
 <style scoped>
+table{
+  border: 1px solid black;
+}
+h3{
+  font-weight: 600;
+}
 </style>
 
 <template>
   <div>
     <Navbar /><br />
     <form @submit.prevent="searchForms">
-      <input class="p-2" type="date" v-model="date" />
-      <input class="p-2" type="submit" value="Search!" />
+      <input class="p-1" type="date" v-model="date" />
+      <input class="p-1" type="submit" value="Search!" />
     </form>
-    <h2>Approved Bills</h2>
-    <table class="table table-secondary text-center mt-3">
+    <h3 class="mt-2">Approved Bills</h3>
+    <table class="table table-secondary text-center mt-1">
       <thead class="table-dark">
         <tr>
           <th scope="col">Sr no.</th>
@@ -42,8 +48,8 @@
       </tbody>
     </table>
 
-    <h2 class="mt-3">Rejected Bills</h2>
-    <table class="table table-secondary text-center mt-3">
+    <h3 class="mt-4">Rejected Bills</h3>
+    <table class="table table-secondary text-center mt-1">
       <thead class="table-dark">
         <tr>
           <th scope="col">Sr no.</th>
@@ -79,8 +85,9 @@
         </tr>
       </tbody>
     </table>
-    <div class="m-1">
-      <label for="myfile">Upload Reimbursement Form: </label>
+    <div class="mt-5">
+      <div class="m-1">
+      <label for="myfile">Upload Reimbursement Form : </label>
       <input
         type="file"
         id="DataForm"
@@ -88,11 +95,11 @@
         @change="handleFileChange"
       />
     </div>
-    <button type="button" id="uploadtBtn" @click="uploadFile('form1')">
+    <button class="btn btn-outline-dark btn-sm" type="button" id="uploadtBtn" @click="uploadFile('form1')">
       Upload file
     </button>
     <div class="m-1">
-      <label for="myfile">Upload Settlement Form: </label>
+      <label for="myfile">Upload Settlement Form : </label>
       <input
         type="file"
         id="DataForm"
@@ -100,7 +107,8 @@
         @change="handleFileChange"
       />
     </div>
-    <button type="button" id="uploadtBtn" @click="uploadFile('form2')">
+    </div>
+    <button class="btn btn-outline-dark btn-sm" type="button" id="uploadtBtn" @click="uploadFile('form2')">
       Upload file
     </button>
      <div class="text-center">
