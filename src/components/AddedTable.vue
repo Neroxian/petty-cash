@@ -4,13 +4,13 @@
       <tr>
         <th scope="col">
           Sr no.
-        </th>        
+        </th>
         <th scope="col">
           Office
         </th>
         <th scope="col">
           Date
-        </th>        
+        </th>
         <th scope="col">
           Vendor
         </th>

@@ -9,7 +9,7 @@ export const state = {
 
 export const getters = {
   isAuthenticated: (state) => !!state.token,
-  authStatus: (state) => state.status  
+  authStatus: (state) => state.status
 
 }
 
@@ -46,7 +46,7 @@ export const actions = {
             let token = response.getHeaders().authorization
             let role = response.raw.LoginAuth.result.Role
             sessionStorage.setItem('user-token', token)
-            sessionStorage.setItem('role',role)
+            sessionStorage.setItem('role', role)
             commit(types.MUTATE_AUTH_SUCCESS, response)
             resolve(response)
           } else {
