@@ -56,7 +56,7 @@ import Navbar from '@/components/common/Navbar.vue'
 
 export default {
   name: 'Login',
-  components:{
+  components: {
     Navbar
   },
   data () {
@@ -71,7 +71,7 @@ export default {
         // Redirect to next page after suucessfull login
         if (sessionStorage.getItem('role') == 'Accountant') {
           this.$router.push({ name: 'Accountant_table' })
-        } else if (sessionStorage.getItem('role')  == 'Central Manager') {
+        } else if (sessionStorage.getItem('role') == 'Central Manager') {
           this.$router.push({ name: 'Add' })
         } else {
           alert('Invalide password and username')

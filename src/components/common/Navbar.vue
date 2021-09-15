@@ -1,41 +1,40 @@
 <template>
   <div id="Navbar">
-    <b-navbar fixed="top" type="light" variant="light">
+    <b-navbar
+      fixed="top"
+      type="light"
+      variant="light"
+    >
       <b-navbar-brand>
         <img
           src="../../assets/logo_mkcl_w.svg"
           class="logo"
           alt="Kitten "
           style="max-height: 50px; max-width: 50px"
-        />
+        >
         MKCL’s Petty Cash Expenses
       </b-navbar-brand>
       <b-navbar-nav class="ml-auto">
         <b-nav-item>
           <router-link v-if="role === 'Central Manager'" to="/response">
-            Response 
+            Response
           </router-link>
-        </b-nav-item> 
+        </b-nav-item>
         <b-nav-item>
           <router-link v-if="role === 'Central Manager'" to="/historyn">
-            History 
+            History
           </router-link>
-        </b-nav-item> 
+        </b-nav-item>
         <b-nav-item>
           <router-link v-if="role === 'Central Manager'" to="/add">
-            Home </router-link>
-        </b-nav-item>        
-        <b-nav-item>
-         <router-link v-if="role === 'Accountant'" to="/accountant">
-            Home </router-link>
-        </b-nav-item> 
-        <b-nav-item>
-          <router-link v-if="role === 'Accountant'" to="/adminReport">
-            Report </router-link>
-        </b-nav-item> 
+            Home
+          </router-link>
+        </b-nav-item>
 
         <b-nav-item>
-          <a v-if="role != null" @click="logout">Logout</a>
+          <a v-if="role != null" @click="logout"
+            ><button class="btn btn-danger">Logout</button></a
+          >
         </b-nav-item>
       </b-navbar-nav>
     </b-navbar>
@@ -45,22 +44,25 @@
 // import {Sidebar}  from '@/components/common/Sidebar.vue'
 
 export default {
-  Name: "Navbar",
+  Name: 'Navbar',
   components: {
     // Sidebar
   },
-  data() {
+  data () {
     return {
-      role: null,
-    };
+      role: null
+    }
   },
   methods: {
-    logout() {
-      this.$store.dispatch("AUTH_LOGOUT");
-    },
+    logout () {
+      this.$store.dispatch('AUTH_LOGOUT')
+    }
   },
-  created() {
-    this.role = sessionStorage.getItem("role");
-  },
-};
+  created () {
+    this.role = sessionStorage.getItem('role')
+  }
+}
 </script>
+<style scoped>
+
+</style>
