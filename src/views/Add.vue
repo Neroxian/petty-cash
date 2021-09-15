@@ -33,25 +33,19 @@
           />
         </div>
         <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
-          <select
+           <select
+            id="officeLocations"
             v-model.lazy="info.office"
             class="custom-select"
             aria-label="Office wing"
             required
           >
-            <!-- <option selected></option> -->
             <option
-              value=""
-              disabled
-              selected
+              v-for="officeLocation in locations"
+              :value="officeLocation.location"
+              :key="officeLocation._id"
             >
-              Office wing
-            </option>
-            <option value="Wing A">
-              A
-            </option>
-            <option value="Wing B">
-              B
+              {{ officeLocation.location }}
             </option>
           </select>
         </div>
@@ -245,6 +239,7 @@ export default {
       newHeadName: '',
       formFile: null,
       uploadedFilePath: null,
+      locations: [],
       info: {
         vname: '',
         billno: '',
@@ -260,6 +255,7 @@ export default {
   mounted () {
     this.GetAllVendors()
     this.GetAllExpenseHeads()
+    this.GetAllLocations()
   },
   methods: {
     handleFileChange (e) {
@@ -373,6 +369,18 @@ export default {
             headName: this.newHeadName
           })
         })
+    },
+     GetAllLocations() {
+        new MQL()
+        .setActivity("o.[ReadOfficeLocations]")
+        .enablePageLoader(false)
+        .fetch()
+        .then((rs) => {
+          let res = rs.getActivity("ReadOfficeLocations", true);
+          console.log("Printing locations");
+          console.log("Location details", res);
+          this.locations = res.result;
+        });
     },
     GetAllVendors () {
       new MQL()
