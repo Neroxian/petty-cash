@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div><Navbar /></div> <br>
+    <div><Navbar /></div>
+    <br />
     <!-- <nav class="navbar navbar-light">
       <div class="container row text-center">
         <div class="col col-lg-7 col-md-7 col-sm-12 col-12">
@@ -19,7 +20,7 @@
       </div>
     </nav> -->
     <form>
-      <div class="container row text-center">
+      <div class="container mt-4 row text-center">
         <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
           <input
             v-model.lazy="info.date"
@@ -28,8 +29,9 @@
             name="Date"
             min="1999-12-31"
             max="2030-12-31"
-          >
-          <div class="col col-lg-6 col-md-6 col-sm-12 col-12" />
+          />
+        </div>
+        <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
           <select
             v-model.lazy="info.office"
             class="custom-select"
@@ -179,12 +181,8 @@
             id="formFile"
             style="border: 1px solid black; padding: 5px"
             @change="handleFileChange"
-          >
-          <button
-            type="button"
-            id="uploadtBtn"
-            @click="uploadFile"
-          >
+          />
+          <button class="btn btn-outline-dark btn-sm" type="button" id="uploadtBtn" @click="uploadFile">
             Upload file
           </button>
         </div>
@@ -200,16 +198,18 @@
         </button>
       </div>
     </form>
-    <AddedTable :data="data" />
+    <div v-if="data.length !== 0">
+      <AddedTable :data="data" />
+    </div>
   </div>
 </template>
 
 <script>
-import Navbar from '@/components/common/Navbar.vue'
-import AddedTable from '@/components/AddedTable.vue'
-import MQL from '@/plugins/mql.js'
-import { v4 as uuidv4 } from 'uuid'
-import MQLCdn from '@/plugins/mqlCdn.js'
+import Navbar from "@/components/common/Navbar.vue";
+import AddedTable from "@/components/AddedTable.vue";
+import MQL from "@/plugins/mql.js";
+import { v4 as uuidv4 } from "uuid";
+import MQLCdn from "@/plugins/mqlCdn.js";
 
 const MONTHS = [
   'January',
@@ -228,8 +228,8 @@ const MONTHS = [
 
 export default {
   components: { AddedTable, Navbar },
-  name: 'Add',
-  data () {
+  name: "Add",
+  data() {
     return {
       vendors: [],
       expenseHeads: [],
@@ -313,12 +313,12 @@ export default {
               expenseHead: this.info.head,
               vendor: this.info.vname,
               FormID: uuidv4(),
-              billStatus: 'pending'
-            }
+              billStatus: "pending",
+            },
           ],
-          currentApprovalStatus: 'centeral manager',
+          currentApprovalStatus: "centeral manager",
           month: month,
-          year: year
+          year: year,
         })
         .enablePageLoader(true)
         .showConfirmDialog(true)
@@ -332,8 +332,7 @@ export default {
           })
         })
     },
-    CreateNewVendor () {
-      console.log('FAK')
+    CreateNewVendor() {
       new MQL()
         .setActivity('o.[CreatePettyCashVendors]')
         .setData('CreatePettyCashVendors', {
@@ -419,7 +418,7 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 2.3rem;
+  margin: 2.7rem;
 }
 .add-form {
   padding: 0;

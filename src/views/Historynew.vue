@@ -213,7 +213,7 @@
               />
             </div>
             <div class="modal-body">
-              <table class="table table-bordered table-hover">
+              <table class="table table-bordered">
                 <tbody>
                   <tr>
                     <td class="deno">
