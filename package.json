@@ -19,7 +19,6 @@
     "gulp-prompt": "^1.2.0",
     "pako": "^1.0.10",
     "pdf-merge": "^1.2.0",
-    "pspdfkit": "^2021.5.2",
     "readline-sync": "^1.4.10",
     "register-service-worker": "^1.6.2",
     "uuid": "^8.3.2",

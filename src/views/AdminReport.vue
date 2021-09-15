@@ -33,7 +33,6 @@
 </template>
 <script>
 import Navbar from "@/components/common/Navbar.vue";
-import PSPDFKit from "pspdfkit";
 import MQL from '@/plugins/mql.js'
 
 // const baseUrl = `${window.location.protocol}//${window.location.host}/`;
@@ -67,39 +66,7 @@ export default {
     this.ReportGenration();
     this.GetAllRequests();
   },
-  methods: {
-    ReportGenration() {
-      PSPDFKit.load({
-        document:
-         "https://testcdncs.mkcl.org/1xnt9sQlNf6XVS9zQHE8Tw05tzR/PettyCashReimbursementForm/1631553338801_bill.pdf",
-        container: ".container",
-      }).then((instance) => {
-        this.instance = instance;
-        // console.log(this.instance)
-      });
-    },
-    testfuc() {
-      console.log(this.instance);
-      fetch("https://testcdncs.mkcl.org/1xnt9sQlNf6XVS9zQHE8Tw05tzR/PettyCashReimbursementForm/1631553338801_bill.pdf")
-        .then((res) => {
-          if (!res.ok) {
-            throw res;
-          }
-          return res;
-        })
-        .then((res) => res.blob())
-        .then((blob) => {
-          this.instance.applyOperations([
-            {
-              type: "importDocument",
-            //   importedPageIndexes: [2, 4, [7, 10]],
-              beforePageIndex: 3,
-              document: blob,
-              treatImportedDocumentAsOnePage: false,
-            },
-          ]);
-        });
-    },
+  methods: {    
     GetAllRequests () {   
     new MQL()
       .setActivity('o.[query_1xqD5W4b5HEjiQW66cUXvoJy8e7]')
