@@ -31,15 +31,18 @@
           />
         <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
         </div>
-          <select
+            <select
+            id="officeLocations"
             v-model.lazy="info.office"
             class="custom-select"
-            aria-label="Office wing"
           >
-            <!-- <option selected></option> -->
-            <option value="" disabled selected>Office wing</option>
-            <option value="Wing A">A</option>
-            <option value="Wing B">B</option>
+            <option
+              v-for="officeLocation in locations"
+              :value="officeLocation.location"
+              :key="officeLocation._id"
+            >
+              {{ officeLocation.location }}
+            </option>
           </select>
         </div>
       </div>
@@ -208,6 +211,7 @@ export default {
       newHeadName: "",
       formFile: null,
       uploadedFilePath: null,
+      locations: [],
       info: {
         vname: "",
         billno: "",
@@ -223,6 +227,7 @@ export default {
   mounted() {
     this.GetAllVendors();
     this.GetAllExpenseHeads();
+    this.GetAllLocations()
   },
   methods: {
     handleFileChange(e) {
@@ -338,6 +343,18 @@ export default {
           });
         });
     },
+    GetAllLocations() {
+        new MQL()
+        .setActivity("o.[ReadOfficeLocations]")
+        .enablePageLoader(false)
+        .fetch()
+        .then((rs) => {
+          let res = rs.getActivity("ReadOfficeLocations", true);
+          console.log("Printing locations");
+          console.log("Location details", res);
+          this.locations = res.result;
+        });
+    },
     GetAllVendors() {
       new MQL()
         .setActivity("o.[query_1xngjEpKzNb6dT7z4tFQnjry25L]")
@@ -345,8 +362,6 @@ export default {
         .fetch()
         .then((rs) => {
           let res = rs.getActivity("query_1xngjEpKzNb6dT7z4tFQnjry25L", true);
-          console.log("Printing Vendors");
-          console.log("Vendor details", res);
           this.vendors = res;
         });
     },
