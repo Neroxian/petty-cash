@@ -19,7 +19,7 @@
         </div>
       </div>
     </nav> -->
-    <form>
+    <form @submit.prevent="CreateNewForm">
       <div class="container mt-4 row text-center">
         <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
           <input
@@ -29,6 +29,7 @@
             name="Date"
             min="1999-12-31"
             max="2030-12-31"
+            required
           />
         </div>
         <div class="col col-lg-6 col-md-6 col-sm-12 col-12">
@@ -36,6 +37,7 @@
             v-model.lazy="info.office"
             class="custom-select"
             aria-label="Office wing"
+            required
           >
             <!-- <option selected></option> -->
             <option
@@ -61,6 +63,7 @@
             id="vendor-name"
             v-model.lazy="info.vname"
             class="custom-select"
+            required
           >
             <option
               v-for="vendor in vendors"
@@ -103,6 +106,7 @@
             v-model.lazy="info.billno"
             type="text"
             class="form-control add-form"
+            required
           >
         </div>
       </div>
@@ -114,6 +118,7 @@
             v-model.lazy="info.description"
             type="text"
             class="form-control add-form"
+            required
           >
         </div>
         <div class="col-12 col-lg-6 col-md-6 col-sm-12">
@@ -122,6 +127,7 @@
             v-model.lazy="info.amount"
             type="text"
             class="form-control add-form"
+            required
           >
         </div>
       </div>
@@ -132,6 +138,7 @@
           <select
             v-model.lazy="info.head"
             class="custom-select"
+            required
           >
             <!-- <option selected></option> -->
             <option
@@ -190,7 +197,6 @@
 
       <div class="text-center">
         <button
-          @click.prevent="CreateNewForm()"
           class="btn btn-success mb-3"
           type="submit"
         >

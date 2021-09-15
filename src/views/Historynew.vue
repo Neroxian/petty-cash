@@ -154,7 +154,7 @@
                           placeholder="0"
                           @change="handleFileChange"
                         >
-                        <button @click="uploadNewFile">
+                        <button class="btn btn-dark btn-sm" @click="uploadNewFile">
                           Upload new file
                         </button>
                         <p>

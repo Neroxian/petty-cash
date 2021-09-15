@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <Navbar /><br>
+    <Navbar /><br />
     <div>
       <h1 class="">
         <b-toaster
@@ -12,16 +12,8 @@
     </div>
     <div>
       <form @submit.prevent="searchForms">
-        <input
-          class="p-2"
-          type="date"
-          v-model="date"
-        >
-        <input
-          class="p-2"
-          type="submit"
-          value="Search!"
-        >
+        <input class="p-2" type="date" v-model="date" />
+        <input class="p-2" type="submit" value="Search!" />
       </form>
     </div>
     <div class="overflow-auto text-center">
@@ -41,12 +33,9 @@
           </tr>
         </thead>
 
-        <tbody v-if=" status === 'Accountant'">
-          <tr
-            v-for="(data, idx) in formData"
-            :key="data.FormID"
-          >
-            <template v-if=" data.billStatus === 'pending'">
+        <tbody v-if="status === 'Accountant'">
+          <tr v-for="(data, idx) in formData" :key="data.FormID">
+            <template v-if="data.billStatus === 'pending'">
               <td>{{ idx }}</td>
               <td>{{ data.date }}</td>
               <td>{{ data.vendor }}</td>
@@ -58,7 +47,9 @@
                 <a
                   :href="data.uploadFilePath"
                   target="_blank"
-                ><button class="btn btn-sm btn-primary">View</button></a>
+                  class="btn btn-sm btn-primary"
+                  >View</a
+                >
               </td>
               <td>
                 <button
@@ -91,171 +82,170 @@
 </template>
 
 <style scoped>
-    textarea:focus{
-        border: 1px solid black;
-        box-shadow: none;
-    }
-    .row{
-        margin: 0;
-        padding: 0;
-    }
-    td{
-        padding: 0.4rem;
-        border: 1px solid gray;
-    }
+textarea:focus {
+  border: 1px solid black;
+  box-shadow: none;
+}
+.row {
+  margin: 0;
+  padding: 0;
+}
+td {
+  padding: 0.4rem;
+  border: 1px solid gray;
+}
 </style>
 
 <script>
-import MQL from '@/plugins/mql.js'
-import Navbar from '@/components/common/Navbar.vue'
+import MQL from "@/plugins/mql.js";
+import Navbar from "@/components/common/Navbar.vue";
 
-import {
-  BToaster
-} from 'bootstrap-vue'
+import { BToaster } from "bootstrap-vue";
 const MONTHS = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
-]
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 export default {
-  name: 'AccountantTable',
+  name: "AccountantTable",
 
-  data () {
+  data() {
     return {
       status: null,
       formData: [],
-      date: '2021-12-30'
-      // remark: 'Type remark if rejected!'
-    }
+      date: "2021-12-30",
+      remark: 'Type remark if rejected!'
+    };
   },
   components: {
-    'b-toaster': BToaster,
-    Navbar
+    "b-toaster": BToaster,
+    Navbar,
   },
-  mounted () {
-    this.GetAllRequests()
+  mounted() {
+    this.GetAllRequests();
   },
-  methods: { searchForms () {
-    this.GetAllRequests()
-  },
-  GetAllRequests () {
-    const month = MONTHS[parseInt(this.date.split('-')[1], 10) - 1]
-    console.log(month)
-    const year = this.date.split('-')[0]
-    console.log(year)
-    new MQL()
-      .setActivity('o.[query_1xqD5W4b5HEjiQW66cUXvoJy8e7]')
-      .setData({
-        fetchId: '1xqD5W4b5HEjiQW66cUXvoJy8e7',
-        year: year,
-        month: month
-      })
-      .enablePageLoader(false)
-      .fetch()
-      .then((rs) => {
-        let res = rs.getActivity('FetchQueryData', true)
-        const queryId = Object.keys(res.result)[0]
-        if (res.result[queryId] !== null) {
-          this.formData = res.result[queryId][0].Forms
-          this.status = res.result[queryId][0].currentApprovalStatus
-        } else {
-          this.formData = []
-          this.status = null
-        }
-      })
-  },
-
-  updateRequest (FormID) {
-    this.expenses = this.expenses.filter((r) => r._FormID !== FormID)
-  },
-  approveBill (bill) {
-    const month = MONTHS[parseInt(this.date.split('-')[1], 10) - 1]
-    const year = this.date.split('-')[0]
-    new MQL()
-      .setActivity('o.[UpdatePettyCashDailyForms]')
-      .showConfirmDialog(true)
-
-      .setData({
-        'FormID': bill.FormID,
-        'month': month,
-        'year': year,
-        'Forms': [
-          {
-            'FormID': bill.FormID,
-            'amount': bill.amount,
-            'billNumber': bill.billNumber,
-            'date': bill.date,
-            'description': bill.description,
-            'expenseHead': bill.expenseHead,
-            'uploadFilePath': bill.uploadFilePath,
-            'vendor': bill.vendor,
-            'billStatus': 'approved'
-          }
-        ]
-      })
-      .fetch()
-      .then((res) => {
-        console.log(res)
-        this.$bvToast.toast(`Bill Approved successfully`, {
-          toaster: 'b-toaster-top-right',
-          title: 'Successful',
-          autoHideDelay: 4000,
-          variant: 'success',
-          solid: true,
-          toastClass: 'toast'
+  methods: {
+    searchForms() {
+      this.GetAllRequests();
+    },
+    GetAllRequests() {
+      const month = MONTHS[parseInt(this.date.split("-")[1], 10) - 1];
+      console.log(month);
+      const year = this.date.split("-")[0];
+      console.log(year);
+      new MQL()
+        .setActivity("o.[query_1xqD5W4b5HEjiQW66cUXvoJy8e7]")
+        .setData({
+          fetchId: "1xqD5W4b5HEjiQW66cUXvoJy8e7",
+          year: year,
+          month: month,
         })
-      })
-  },
-  rejectBill (bill) {
-    const month = MONTHS[parseInt(this.date.split('-')[1], 10) - 1]
-    const year = this.date.split('-')[0]
-    const remark = this.remark
-    new MQL()
-      .setActivity('o.[UpdatePettyCashDailyForms]')
-      .showConfirmDialog(true)
-
-      .setData({
-        'FormID': bill.FormID,
-        'month': month,
-        'year': year,
-        'Forms': [
-          {
-            'FormID': bill.FormID,
-            'amount': bill.amount,
-            'billNumber': bill.billNumber,
-            'date': bill.date,
-            'description': bill.description,
-            'expenseHead': bill.expenseHead,
-            'uploadFilePath': bill.uploadFilePath,
-            'vendor': bill.vendor,
-            'billStatus': 'rejected',
-            'remark': remark
+        .enablePageLoader(false)
+        .fetch()
+        .then((rs) => {
+          let res = rs.getActivity("FetchQueryData", true);
+          const queryId = Object.keys(res.result)[0];
+          if (res.result[queryId] !== null) {
+            this.formData = res.result[queryId][0].Forms;
+            this.status = res.result[queryId][0].currentApprovalStatus;
+          } else {
+            this.formData = [];
+            this.status = null;
           }
-        ]
-      })
-      .fetch()
-      .then((res) => {
-        console.log(res)
-        this.$bvToast.toast(`Bill Rejected successfully`, {
-          toaster: 'b-toaster-top-right',
-          title: 'Successful',
-          autoHideDelay: 4000,
-          variant: 'success',
-          solid: true,
-          toastClass: 'toast'
+        });
+    },
+
+    updateRequest(FormID) {
+      this.expenses = this.expenses.filter((r) => r._FormID !== FormID);
+    },
+    approveBill(bill) {
+      const month = MONTHS[parseInt(this.date.split("-")[1], 10) - 1];
+      const year = this.date.split("-")[0];
+      new MQL()
+        .setActivity("o.[UpdatePettyCashDailyForms]")
+        .showConfirmDialog(true)
+
+        .setData({
+          FormID: bill.FormID,
+          month: month,
+          year: year,
+          Forms: [
+            {
+              FormID: bill.FormID,
+              amount: bill.amount,
+              billNumber: bill.billNumber,
+              date: bill.date,
+              description: bill.description,
+              expenseHead: bill.expenseHead,
+              uploadFilePath: bill.uploadFilePath,
+              vendor: bill.vendor,
+              billStatus: "approved",
+            },
+          ],
         })
-      })
-  }
-  }
-}
+        .fetch()
+        .then((res) => {
+          console.log(res);
+          this.$bvToast.toast(`Bill Approved successfully`, {
+            toaster: "b-toaster-top-right",
+            title: "Successful",
+            autoHideDelay: 4000,
+            variant: "success",
+            solid: true,
+            toastClass: "toast",
+          });
+        });
+    },
+    rejectBill(bill) {
+      const month = MONTHS[parseInt(this.date.split("-")[1], 10) - 1];
+      const year = this.date.split("-")[0];
+      const remark = this.remark;
+      new MQL()
+        .setActivity("o.[UpdatePettyCashDailyForms]")
+        .showConfirmDialog(true)
+
+        .setData({
+          FormID: bill.FormID,
+          month: month,
+          year: year,
+          Forms: [
+            {
+              FormID: bill.FormID,
+              amount: bill.amount,
+              billNumber: bill.billNumber,
+              date: bill.date,
+              description: bill.description,
+              expenseHead: bill.expenseHead,
+              uploadFilePath: bill.uploadFilePath,
+              vendor: bill.vendor,
+              billStatus: "rejected",
+              remark: remark,
+            },
+          ],
+        })
+        .fetch()
+        .then((res) => {
+          console.log(res);
+          this.$bvToast.toast(`Bill Rejected successfully`, {
+            toaster: "b-toaster-top-right",
+            title: "Successful",
+            autoHideDelay: 4000,
+            variant: "success",
+            solid: true,
+            toastClass: "toast",
+          });
+        });
+    },
+  },
+};
 </script>
